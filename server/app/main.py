@@ -3,9 +3,17 @@ from enum import Enum
 from typing import Any
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, status
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @dataclass
@@ -26,6 +34,11 @@ async def send_message(socket: WebSocket, code: MessageCode, data: dict[str, Any
 
 matchmaking_queue: list[Player] = []
 current_matches: dict[int, tuple[Player, Player]] = {}
+
+
+@app.get("/")
+async def root():
+    return {"matchmaking_queue": matchmaking_queue, "current_matches": current_matches}
 
 
 @app.websocket("/{username}/match")
