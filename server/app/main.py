@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any
@@ -6,6 +7,9 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, status
 from fastapi.middleware.cors import CORSMiddleware
 
 
+logging.basicConfig(
+    format="%(asctime)s %(process)d %(levelname)s: %(message)s"
+)
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -52,14 +56,14 @@ async def match(socket: WebSocket, username: str):
         )
 
     player = Player(username=username, socket=socket)
-    print(username, "joined")
+    logging.info(f"{username} joined")
 
     if len(matchmaking_queue) == 1:
         opponent = matchmaking_queue.pop(0)
         match_id = len(current_matches)
         current_matches[match_id] = opponent, player
-        print(f"New match ({match_id}): {opponent.username} vs {username}")
-        print("Current matches:", current_matches)
+        logging.info(f"New match: {opponent.username} vs {username}")
+        logging.info(f"Current matches: {current_matches}")
         await send_message(
             socket,
             MessageCode.OPPONENT_FOUND,
@@ -77,7 +81,7 @@ async def match(socket: WebSocket, username: str):
     else:
         matchmaking_queue.append(player)
 
-    print("Matchmaking queue:", matchmaking_queue)
+    logging.info(f"Matchmaking queue: {matchmaking_queue}")
 
     try:
         while True:
@@ -85,8 +89,8 @@ async def match(socket: WebSocket, username: str):
             data = json["data"]
             match = current_matches[json["match_id"]]
             opponent = match[0] if match[0] != player else match[1]
-            print(f"Packet received from {username}: {json}")
-            print(f"Sending it to {opponent.username}")
+            logging.info(f"Packet received from {username}: {json}")
+            logging.info(f"Sending it to {opponent.username}")
             match json["code"]:
                 case MessageCode.SESSION_DESCRIPTION.value:
                     await send_message(
@@ -105,6 +109,6 @@ async def match(socket: WebSocket, username: str):
                     )
 
     except WebSocketDisconnect as error:
-        print(f"{player} disconnected with code {error.code}")
+        logging.info(f"{player} disconnected with code {error.code}")
         if player in matchmaking_queue:
             matchmaking_queue.remove(player)
