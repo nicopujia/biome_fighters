@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=3 uid="uid://wmijdab76o4e"]
+
+[ext_resource type="Script" path="res://screens/auth_screen/auth_screen.gd" id="1_4jcn8"]
+
+[node name="AuthScreen" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4jcn8")
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_right = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Content"]
+layout_mode = 2
+text = "Welcome!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UsernameInput" type="LineEdit" parent="Content"]
+layout_mode = 2
+placeholder_text = "Username"
+
+[node name="PasswordInput" type="LineEdit" parent="Content"]
+layout_mode = 2
+placeholder_text = "Password"
+max_length = 30
+secret = true
+secret_character = "*"
+virtual_keyboard_type = 6
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="RepeatPasswordInput" type="LineEdit" parent="Content"]
+layout_mode = 2
+placeholder_text = "Repeat password"
+max_length = 30
+secret = true
+secret_character = "*"
+virtual_keyboard_type = 6
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="InfoLabel" type="Label" parent="Content"]
+modulate = Color(1, 1, 1, 0.498039)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+alignment = 1
+
+[node name="LoginButton" type="Button" parent="Content/Buttons"]
+layout_mode = 2
+text = "Login"
+
+[node name="RegisterButton" type="Button" parent="Content/Buttons"]
+layout_mode = 2
+text = "Register"
+
+[connection signal="pressed" from="Content/Buttons/LoginButton" to="." method="_on_login_button_pressed"]
+[connection signal="pressed" from="Content/Buttons/RegisterButton" to="." method="_on_register_button_pressed"]

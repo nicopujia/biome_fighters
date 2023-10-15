@@ -1,0 +1,231 @@
+[gd_scene load_steps=19 format=3 uid="uid://b0yrwvujlggal"]
+
+[ext_resource type="Texture2D" uid="uid://ffcwxnwfr6yi" path="res://screens/game/hud.png" id="1_m21ki"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_daysh"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(38, 5, 4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jowkc"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(38, 1, 4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ss1tw"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(38, 18, 4, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rqulm"]
+size = Vector2(12, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6iwot"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(42, 4, 4, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vefvq"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(42, 20, 4, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bwbr5"]
+size = Vector2(4, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0d1c"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(38, 8, 4, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7kewi"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(38, 24, 4, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3c7r8"]
+size = Vector2(12, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prgrg"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(34, 4, 4, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bydyu"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(34, 20, 4, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n8ehp"]
+size = Vector2(4, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gujqa"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iuhsl"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05etv"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jaw26"]
+atlas = ExtResource("1_m21ki")
+region = Rect2(16, 0, 16, 16)
+
+[node name="GameScreen" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Usernames" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 24.0
+grow_horizontal = 2
+
+[node name="Player1" type="Label" parent="Usernames"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -9.5
+offset_right = 144.0
+offset_bottom = 9.5
+grow_vertical = 2
+text = "Player 1 username"
+vertical_alignment = 1
+
+[node name="Versus" type="Label" parent="Usernames"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -9.5
+offset_right = 8.0
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "vs"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Player2" type="Label" parent="Usernames"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -144.0
+offset_top = -9.5
+offset_right = -8.0
+offset_bottom = 9.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "Player 2 username"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="DPadContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -68.0
+offset_right = 50.0
+offset_bottom = -68.0
+grow_vertical = 0
+
+[node name="DPad" type="Node2D" parent="DPadContainer"]
+position = Vector2(-2, 12)
+scale = Vector2(6, 6)
+metadata/_edit_group_ = true
+
+[node name="Center" type="TouchScreenButton" parent="DPadContainer/DPad"]
+position = Vector2(-2, -2)
+texture_normal = SubResource("AtlasTexture_daysh")
+texture_pressed = SubResource("AtlasTexture_daysh")
+passby_press = true
+visibility_mode = 1
+
+[node name="Up" type="TouchScreenButton" parent="DPadContainer/DPad"]
+position = Vector2(-2, -6)
+texture_normal = SubResource("AtlasTexture_jowkc")
+texture_pressed = SubResource("AtlasTexture_ss1tw")
+shape = SubResource("RectangleShape2D_rqulm")
+shape_visible = false
+passby_press = true
+action = "ui_up"
+visibility_mode = 1
+
+[node name="Right" type="TouchScreenButton" parent="DPadContainer/DPad"]
+position = Vector2(2, -3)
+texture_normal = SubResource("AtlasTexture_6iwot")
+texture_pressed = SubResource("AtlasTexture_vefvq")
+shape = SubResource("RectangleShape2D_bwbr5")
+shape_visible = false
+passby_press = true
+action = "ui_right"
+visibility_mode = 1
+
+[node name="Down" type="TouchScreenButton" parent="DPadContainer/DPad"]
+position = Vector2(-2, 1)
+texture_normal = SubResource("AtlasTexture_x0d1c")
+texture_pressed = SubResource("AtlasTexture_7kewi")
+shape = SubResource("RectangleShape2D_3c7r8")
+shape_visible = false
+passby_press = true
+action = "ui_down"
+visibility_mode = 1
+
+[node name="Left" type="TouchScreenButton" parent="DPadContainer/DPad"]
+position = Vector2(-6, -3)
+texture_normal = SubResource("AtlasTexture_prgrg")
+texture_pressed = SubResource("AtlasTexture_bydyu")
+shape = SubResource("RectangleShape2D_n8ehp")
+shape_visible = false
+passby_press = true
+action = "ui_left"
+visibility_mode = 1
+
+[node name="Battle" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -84.0
+offset_right = 96.0
+offset_bottom = 108.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonsContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="JumpButton" type="TouchScreenButton" parent="ButtonsContainer"]
+texture_filter = 1
+position = Vector2(-72, -64)
+scale = Vector2(3, 3)
+texture_normal = SubResource("AtlasTexture_gujqa")
+texture_pressed = SubResource("AtlasTexture_iuhsl")
+visibility_mode = 1
+
+[node name="ActionButton" type="TouchScreenButton" parent="ButtonsContainer"]
+texture_filter = 1
+position = Vector2(-72, -120)
+scale = Vector2(3, 3)
+texture_normal = SubResource("AtlasTexture_05etv")
+texture_pressed = SubResource("AtlasTexture_jaw26")
+visibility_mode = 1
