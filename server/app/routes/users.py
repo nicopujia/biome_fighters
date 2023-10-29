@@ -7,8 +7,8 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
 
-from db import db
-from env import JWT_SECRET_KEY, JWT_ALGORITHM, JWT_TOKEN_EXPIRES_IN_MINUTES
+from app.db import db
+from app.env import JWT_SECRET_KEY, JWT_ALGORITHM, JWT_TOKEN_EXPIRES_IN_MINUTES
 
 
 class User(BaseModel):
