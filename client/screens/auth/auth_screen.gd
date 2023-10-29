@@ -25,7 +25,7 @@ func _on_auth_button_pressed(is_logging_in: bool) -> void:
 		"Content-Lenght: " + str(body.to_utf8_buffer().size()),
 	]
 	
-	var response: Dictionary = await Network.http_request(url, headers, method, body)
+	var response: Dictionary = await Network.make_http_request(url, headers, method, body)
 	var response_body: Dictionary = response["body"]
 	
 	if response["status_code"] == HTTPClient.RESPONSE_OK:

@@ -9,7 +9,7 @@ func _ready() -> void:
 	add_child(_http)
 
 
-func http_request(
+func make_http_request(
 	url: String, 
 	headers: PackedStringArray = [], 
 	method: HTTPClient.Method = HTTPClient.METHOD_GET, 
@@ -38,7 +38,7 @@ func call_server_with_auth_token(
 	endpoint: String,
 	method: HTTPClient.Method = HTTPClient.METHOD_GET
 ) -> Dictionary:
-	var url: String = "https://%s/%s" % [Globals.SERVER_DOMAIN, endpoint]
+	var url: String = "https://%s/%s" % [SERVER_DOMAIN, endpoint]
 	var access_token: String = UserData.get_value("Auth", "access_token", "")
 	if access_token.is_empty():
 		# As we already know the answer if the token is empty, we directly 
@@ -48,4 +48,4 @@ func call_server_with_auth_token(
 			"body": {"detail": "Not authenticated"}
 		}
 	var headers: PackedStringArray = ["Authorization: Bearer " + access_token]
-	return await http_request(url, headers, method)
+	return await make_http_request(url, headers, method)
