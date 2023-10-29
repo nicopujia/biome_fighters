@@ -9,7 +9,6 @@ extends Panel
 
 
 func _ready() -> void:
-	_set_loading_state(true)
 	_load_user_data()
 
 
@@ -22,6 +21,7 @@ func _set_loading_state(
 	if button_text.is_empty():
 		_loading_screen_button.hide()
 	else:
+		_loading_screen_button.show()
 		_loading_screen_button.text = button_text
 		for connection in _loading_screen_button.pressed.get_connections():
 			_loading_screen_button.pressed.disconnect(connection["callable"])
@@ -33,18 +33,24 @@ func _set_loading_state(
 
 
 func _load_user_data() -> void:
+	_set_loading_state(true, "Loading user data...")
 	var response = await Network.call_server_with_auth_token("users/me")
-	var body: Dictionary = response["body"]
-	match response["status_code"]:
-		HTTPClient.RESPONSE_OK:
-			_show_user_data(body)
-			_set_loading_state(false)
-			
-		HTTPClient.RESPONSE_UNAUTHORIZED:
-			get_tree().change_scene_to_file("res://screens/auth/auth_screen.tscn")
+	var status_code: int = response["status_code"]
+	
+	if status_code == HTTPClient.RESPONSE_OK:
+		_show_user_data(response["body"])
+		_set_loading_state(false)
 		
-		Error.ERR_CANT_CONNECT:
-			_set_loading_state(true, body["detail"], "Try again", _ready)
+	elif status_code == HTTPClient.RESPONSE_UNAUTHORIZED:
+		get_tree().change_scene_to_file("res://screens/auth/auth_screen.tscn")
+		
+	elif status_code == HTTPRequest.RESULT_TIMEOUT \
+		 or status_code == HTTPRequest.RESULT_CANT_CONNECT \
+		 or status_code == HTTPRequest.RESULT_CANT_RESOLVE:
+			_set_loading_state(true, "Request took too long. Please, check your internet connection and try again", "Try again", _load_user_data)
+		
+	else:
+		_set_loading_state(true, "An unexpected error occurred with status code " + str(status_code))
 
 
 func _show_user_data(data: Dictionary):

@@ -23,6 +23,16 @@ offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="LogoutButton" type="Button" parent="Content"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -56.0
+offset_bottom = 24.0
+grow_horizontal = 0
+text = "Logout"
+
 [node name="UsernameLabel" type="Label" parent="Content"]
 layout_mode = 1
 anchors_preset = 8
