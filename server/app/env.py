@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from os import environ
 
 
-load_dotenv()
+load_dotenv("app/.env")
 
 
 DB_URI = environ["DB_URI"]

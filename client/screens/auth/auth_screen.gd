@@ -1,7 +1,6 @@
 extends Panel
 
 
-@onready var _http = $HTTPRequest
 @onready var _username_input = $Content/UsernameInput
 @onready var _password_input = $Content/PasswordInput
 @onready var _repeated_password_input = $Content/RepeatPasswordInput
@@ -9,24 +8,14 @@ extends Panel
 @onready var _buttons = $Content/Buttons
 
 
-func _on_auth_button_pressed(is_login: bool) -> void:
-	if not _username_input.text \
-	   or not _password_input.text \
-	   or not _repeated_password_input.text:
-		_info_label.text = "Please complete all the fields"
-		return
-	
-	if  _password_input.text != _repeated_password_input.text:
-		_info_label.text = "Passwords do not match"
+func _on_auth_button_pressed(is_logging_in: bool) -> void:
+	if not _fields_are_valid():
 		return
 	
 	_set_buttons_avaiability(false)
 	
-	var url = "http://%s:%s/users/%s" % [
-		Globals.SERVER_DOMAIN, 
-		Globals.SERVER_PORT,
-		"login" if is_login else "register",
-	]
+	var endpoint: String = "login" if is_logging_in else "register"
+	var url: String = "https://%s/users/%s" % [Network.SERVER_DOMAIN, endpoint]
 	var method: int = HTTPClient.METHOD_POST
 	var body: String = "username=%s&password=%s" % [
 		_username_input.text, _password_input.text
@@ -36,24 +25,30 @@ func _on_auth_button_pressed(is_login: bool) -> void:
 		"Content-Lenght: " + str(body.to_utf8_buffer().size()),
 	]
 	
-	var error: Error = _http.request(url, headers, method, body)
+	var response: Dictionary = await Network.http_request(url, headers, method, body)
+	var response_body: Dictionary = response["body"]
 	
-	if error != OK:
-		_info_label.text = "Request failed"
+	if response["status_code"] == HTTPClient.RESPONSE_OK:
+		var access_token: String = response_body["access_token"]
+		UserData.save_value("Auth", "access_token", access_token)
+		get_tree().change_scene_to_file("res://screens/main_menu/main_menu_screen.tscn")
+	else:
+		_info_label.text = response_body["detail"]
 		_set_buttons_avaiability(true)
 
 
-func _on_http_request_completed(_result: int, response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
-	var response_json: Dictionary = JSON.parse_string(body.get_string_from_utf8())
+func _fields_are_valid() -> bool:
+	if not _username_input.text \
+	   or not _password_input.text \
+	   or not _repeated_password_input.text:
+		_info_label.text = "Please complete all the fields"
+		return false
 	
-	match response_code:
-		HTTPClient.RESPONSE_OK:
-			Globals.access_token = response_json["access_token"]
-			get_tree().change_scene_to_packed(Globals.MAIN_MENU_SCREEN)
-		
-		HTTPClient.RESPONSE_BAD_REQUEST:
-			_info_label.text = response_json["detail"]
-			_set_buttons_avaiability(true)
+	if  _password_input.text != _repeated_password_input.text:
+		_info_label.text = "Passwords do not match"
+		return false
+	
+	return true
 
 
 func _set_buttons_avaiability(enabled: bool) -> void:

@@ -10,8 +10,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pyu0p")
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
-
 [node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -70,6 +68,5 @@ text = "Login"
 layout_mode = 2
 text = "Register"
 
-[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_completed"]
 [connection signal="pressed" from="Content/Buttons/LoginButton" to="." method="_on_auth_button_pressed" binds= [true]]
 [connection signal="pressed" from="Content/Buttons/RegisterButton" to="." method="_on_auth_button_pressed" binds= [false]]
