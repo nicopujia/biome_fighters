@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Client"
-run/main_scene="res://screens/auth_screen/auth_screen.tscn"
+run/main_scene="res://screens/main_menu/main_menu_screen.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Server="*res://autoload/server.gd"
+Globals="*res://autoload/globals.gd"
 
 [display]
 

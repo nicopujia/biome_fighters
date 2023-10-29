@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://ffcwxnwfr6yi" path="res://screens/game/hud.png" id="1_m21ki"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_daysh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_voofl"]
 atlas = ExtResource("1_m21ki")
 region = Rect2(38, 5, 4, 4)
 
@@ -141,14 +141,9 @@ grow_vertical = 0
 [node name="DPad" type="Node2D" parent="DPadContainer"]
 position = Vector2(-2, 12)
 scale = Vector2(6, 6)
-metadata/_edit_group_ = true
 
-[node name="Center" type="TouchScreenButton" parent="DPadContainer/DPad"]
-position = Vector2(-2, -2)
-texture_normal = SubResource("AtlasTexture_daysh")
-texture_pressed = SubResource("AtlasTexture_daysh")
-passby_press = true
-visibility_mode = 1
+[node name="Center" type="Sprite2D" parent="DPadContainer/DPad"]
+texture = SubResource("AtlasTexture_voofl")
 
 [node name="Up" type="TouchScreenButton" parent="DPadContainer/DPad"]
 position = Vector2(-2, -6)

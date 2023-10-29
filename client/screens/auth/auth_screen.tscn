@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://wmijdab76o4e"]
 
-[ext_resource type="Script" path="res://screens/auth_screen/auth_screen.gd" id="1_4jcn8"]
+[ext_resource type="Script" path="res://screens/auth/auth_screen.gd" id="1_pyu0p"]
 
 [node name="AuthScreen" type="Panel"]
 anchors_preset = 15
@@ -8,7 +8,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_4jcn8")
+script = ExtResource("1_pyu0p")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -30,11 +32,11 @@ vertical_alignment = 1
 [node name="UsernameInput" type="LineEdit" parent="Content"]
 layout_mode = 2
 placeholder_text = "Username"
+max_length = 30
 
 [node name="PasswordInput" type="LineEdit" parent="Content"]
 layout_mode = 2
 placeholder_text = "Password"
-max_length = 30
 secret = true
 secret_character = "*"
 virtual_keyboard_type = 6
@@ -44,7 +46,6 @@ caret_blink_interval = 0.5
 [node name="RepeatPasswordInput" type="LineEdit" parent="Content"]
 layout_mode = 2
 placeholder_text = "Repeat password"
-max_length = 30
 secret = true
 secret_character = "*"
 virtual_keyboard_type = 6
@@ -69,5 +70,6 @@ text = "Login"
 layout_mode = 2
 text = "Register"
 
-[connection signal="pressed" from="Content/Buttons/LoginButton" to="." method="_on_login_button_pressed"]
-[connection signal="pressed" from="Content/Buttons/RegisterButton" to="." method="_on_register_button_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_completed"]
+[connection signal="pressed" from="Content/Buttons/LoginButton" to="." method="_on_auth_button_pressed" binds= [true]]
+[connection signal="pressed" from="Content/Buttons/RegisterButton" to="." method="_on_auth_button_pressed" binds= [false]]

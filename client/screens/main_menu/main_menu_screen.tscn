@@ -1,0 +1,82 @@
+[gd_scene load_steps=2 format=3 uid="uid://cel3xaihi73h0"]
+
+[ext_resource type="Script" path="res://screens/main_menu/main_menu.gd" id="1_ocelv"]
+
+[node name="MainMenu" type="Panel"]
+custom_minimum_size = Vector2(6.13, 6)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ocelv")
+
+[node name="Content" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UsernameLabel" type="Label" parent="Content"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -9.5
+offset_right = 40.0
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "<username>"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LogoutButton" type="Button" parent="Content"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -28.0
+offset_top = -24.0
+offset_right = 28.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Logout"
+
+[node name="LoadingScreen" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="LoadingScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -9.5
+offset_right = 104.0
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "..."
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Content/LogoutButton" to="." method="_on_logout_button_pressed"]
