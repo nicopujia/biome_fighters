@@ -16,7 +16,7 @@ func make_http_request(
 	method: HTTPClient.Method = HTTPClient.METHOD_GET, 
 	body: String = ""
 ) -> Dictionary:
-	var error: Error = _http.request(url, headers, method, body)
+	var _error: Error = _http.request(url, headers, method, body)
 	var response: Array = await _http.request_completed
 	var result: int = response[0]
 	
@@ -35,11 +35,7 @@ func call_server_with_auth_token(
 	endpoint: String,
 	method: HTTPClient.Method = HTTPClient.METHOD_GET
 ) -> Dictionary:
-	var access_token: String = UserData.get_value("Auth", "access_token", "")
-	if access_token.is_empty():
-		# As we already know the answer if the token is empty, we directly 
-		# return the expected response to save time
-		return {"status_code": HTTPClient.RESPONSE_UNAUTHORIZED}
 	var url: String = "https://%s/%s" % [SERVER_DOMAIN, endpoint]
+	var access_token: String = UserData.get_value("Auth", "access_token", "")
 	var headers: PackedStringArray = ["Authorization: Bearer " + access_token]
 	return await make_http_request(url, headers, method)
