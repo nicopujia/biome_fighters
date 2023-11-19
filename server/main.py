@@ -171,7 +171,7 @@ four_players_matchmaking_pool: list[Player] = []
 
 async def run_match_syncronizer(port: int = 50000, players_amount: int = 2) -> None:
     process = await asyncio.create_subprocess_exec(
-        "match_syncronizer.x86_64",
+        "match_syncronizer",
         "--headless",
         f"--port={port}",
         f"--players_amount={players_amount}",
