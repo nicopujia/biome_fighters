@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dy87le67bddip"]
+
+[ext_resource type="FontFile" uid="uid://gorw4oqsp85c" path="res://font.ttf" id="1_dfsnd"]
+
+[resource]
+default_font = ExtResource("1_dfsnd")
+default_font_size = 16
+BoxContainer/constants/separation = 0

@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://b06ruhlmpd7px"]
+
+[ext_resource type="Script" path="res://screens/game/player/player.gd" id="1_sh0yk"]
+[ext_resource type="SpriteFrames" uid="uid://b43pre0obqg8d" path="res://screens/game/player/characters/diamond/sprite_frames.tres" id="2_g3l3r"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4llwt"]
+radius = 5.0
+height = 16.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ul647"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath("AnimatedSprite2D:animation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("AnimatedSprite2D:frame")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+properties/3/path = NodePath("AnimatedSprite2D:flip_h")
+properties/3/spawn = true
+properties/3/sync = true
+properties/3/watch = false
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 7
+slide_on_ceiling = false
+floor_stop_on_slope = false
+script = ExtResource("1_sh0yk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_4llwt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_g3l3r")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ul647")

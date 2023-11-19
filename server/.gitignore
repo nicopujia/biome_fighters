@@ -1,0 +1,5 @@
+env
+.env
+__pycache__
+match_syncronizer.exe
+match_syncronizer.x86_64

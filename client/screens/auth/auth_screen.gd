@@ -1,40 +1,42 @@
 extends Panel
 
 
-@onready var _username_input = $Content/UsernameInput
-@onready var _password_input = $Content/PasswordInput
-@onready var _repeated_password_input = $Content/RepeatPasswordInput
-@onready var _info_label = $Content/InfoLabel
-@onready var _buttons = $Content/Buttons
+@onready var _username_input: LineEdit = $Content/UsernameInput
+@onready var _password_input: LineEdit = $Content/PasswordInput
+@onready var _repeated_password_input: LineEdit = $Content/RepeatPasswordInput
+@onready var _info_label: Label = $Content/InfoLabel
+@onready var _buttons: HBoxContainer = $Content/Buttons
+@onready var _http: HTTPRequest = $HTTPRequest
 
 
-func _on_auth_button_pressed(is_logging_in: bool) -> void:
+func _on_auth_button_pressed(endpoint: StringName) -> void:
 	if not _fields_are_valid():
 		return
 	
-	_set_buttons_avaiability(false)
-	
-	var endpoint: String = "login" if is_logging_in else "register"
-	var url: String = "https://%s/users/%s" % [Network.SERVER_DOMAIN, endpoint]
-	var method: int = HTTPClient.METHOD_POST
-	var body: String = "username=%s&password=%s" % [
-		_username_input.text, _password_input.text
-	]
+	var url: String = Server.build_url("http", endpoint)
+	var body: String = HTTPClient.new().query_string_from_dict({
+		"username": _username_input.text, 
+		"password": _password_input.text,
+	})
 	var headers: PackedStringArray = [
 		"Content-Type: application/x-www-form-urlencoded",
 		"Content-Lenght: " + str(body.to_utf8_buffer().size()),
 	]
+	_http.request(url, headers, HTTPClient.METHOD_POST, body)
 	
-	var response: Dictionary = await Network.make_http_request(url, headers, method, body)
-	var response_body: Dictionary = response["body"]
-	
-	if response["status_code"] == HTTPClient.RESPONSE_OK:
-		var access_token: String = response_body["access_token"]
-		UserData.save_value("Auth", "access_token", access_token)
+	var response: Server.HTTPResponse = Server.HTTPResponse.new(await _http.request_completed)
+
+	if response.status_code != HTTPClient.RESPONSE_CREATED:
+		_info_label.text = response.body["detail"]
+		_set_buttons_avaiability(true)
+		return
+		
+	if endpoint == "/access-token":
+		UserData.save_value("Auth", "access_token", response.body["access_token"])
 		get_tree().change_scene_to_file("res://screens/main_menu/main_menu_screen.tscn")
 	else:
-		_info_label.text = response_body["detail"]
-		_set_buttons_avaiability(true)
+		_info_label.text = "User registered. Logging in..."
+		_on_auth_button_pressed("/access-token")
 
 
 func _fields_are_valid() -> bool:

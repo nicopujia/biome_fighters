@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5c1usc5scxln"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_n1p2j"]
+
+[node name="GameScreen" type="Node"]
+script = ExtResource("1_n1p2j")
+
+[node name="Battle" type="Node" parent="."]
+
+[node name="Map" type="Node" parent="Battle"]
+
+[node name="SpawnPoints" type="Node" parent="Battle/Map"]
+
+[node name="Player0" type="Node" parent="Battle/Map/SpawnPoints"]
+
+[node name="Player1" type="Node" parent="Battle/Map/SpawnPoints"]
+
+[node name="Player2" type="Node" parent="Battle/Map/SpawnPoints"]
+
+[node name="Player3" type="Node" parent="Battle/Map/SpawnPoints"]

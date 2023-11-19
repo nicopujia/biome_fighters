@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://luo7evmlgkrg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pwpbi"]
+size = Vector2(192, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5sjcg"]
+size = Vector2(16, 192)
+
+[node name="Map" type="Sprite2D"]
+centered = false
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Player0" type="Node2D" parent="SpawnPoints"]
+position = Vector2(24, 168)
+
+[node name="Player1" type="Node2D" parent="SpawnPoints"]
+position = Vector2(168, 168)
+
+[node name="Player2" type="Node2D" parent="SpawnPoints"]
+position = Vector2(24, 40)
+
+[node name="Player3" type="Node2D" parent="SpawnPoints"]
+position = Vector2(168, 40)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="Top" type="CollisionShape2D" parent="Walls"]
+position = Vector2(96, -8)
+shape = SubResource("RectangleShape2D_pwpbi")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls"]
+position = Vector2(96, 200)
+shape = SubResource("RectangleShape2D_pwpbi")
+
+[node name="Left" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-8, 96)
+shape = SubResource("RectangleShape2D_5sjcg")
+
+[node name="Right" type="CollisionShape2D" parent="Walls"]
+position = Vector2(200, 96)
+shape = SubResource("RectangleShape2D_5sjcg")

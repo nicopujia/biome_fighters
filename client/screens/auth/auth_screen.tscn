@@ -68,5 +68,7 @@ text = "Login"
 layout_mode = 2
 text = "Register"
 
-[connection signal="pressed" from="Content/Buttons/LoginButton" to="." method="_on_auth_button_pressed" binds= [true]]
-[connection signal="pressed" from="Content/Buttons/RegisterButton" to="." method="_on_auth_button_pressed" binds= [false]]
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="pressed" from="Content/Buttons/LoginButton" to="." method="_on_auth_button_pressed" binds= [&"/access-token"]]
+[connection signal="pressed" from="Content/Buttons/RegisterButton" to="." method="_on_auth_button_pressed" binds= [&"/register"]]
