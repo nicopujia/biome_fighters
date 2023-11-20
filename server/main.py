@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, UTC
 from enum import Enum
 from os import environ
 from random import choice as random_choice
-from typing import Annotated, Self
+from typing import Annotated
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, WebSocketException, status, Depends
@@ -19,40 +19,11 @@ from pydantic import BaseModel
 from passlib.context import CryptContext
 
 
-load_dotenv("./.env", override=True, verbose=True)
+load_dotenv(".env", override=True)
 
 
-DB_URI: str = environ["DB_URI"]
-JWT_ALGORITHM: str = environ["JWT_ALGORITHM"]
-ACCESS_TOKEN_SECRET_KEY: str = environ["ACCESS_TOKEN_SECRET_KEY"]
-ACCESS_TOKEN_LIFE_TIME_IN_SECONDS: int = int(environ["ACCESS_TOKEN_LIFE_TIME_IN_SECONDS"])
-WS_TOKEN_SECRET_KEY: str = environ["WS_TOKEN_SECRET_KEY"]
-WS_TOKEN_LIFE_TIME_IN_SECONDS: int = int(environ["WS_TOKEN_LIFE_TIME_IN_SECONDS"])
-
-
-class TokenData:    
-    def __init__(self, sub: str, exp: float | None = None) -> None:
-        self.subject = sub
-        self.expiration_time = exp
-    
-    def encode(self, secret_key: str) -> str:
-        return jwt.encode({"sub": self.subject, "exp": self.expiration_time}, secret_key, JWT_ALGORITHM)
-
-    @classmethod
-    def decode(cls, token: str, secret_key: str) -> Self:
-        try:
-            return TokenData(**jwt.decode(token, secret_key, (JWT_ALGORITHM)))
-        except (JWTError, ExpiredSignatureError, JWTClaimsError):
-            raise HTTPException(
-                status.HTTP_401_UNAUTHORIZED, 
-                "Invalid token. Please login again.", 
-                {"WWW-Authenticate": "Bearer"}
-            )
-
-    @staticmethod
-    def calc_exp(seconds: int) -> float:
-        """Calculate token expiration time from now"""
-        return (datetime.now(UTC) + timedelta(seconds=seconds)).timestamp()
+DB_URI = environ["DB_URI"]
+JWT_SECRET_KEY = environ["JWT_SECRET_KEY"]
 
 
 class PortsManager:
@@ -86,6 +57,10 @@ class UserInDB(User):
     hashed_password: str
 
 
+class Token(BaseModel):
+    access_token: str
+
+
 @dataclass
 class Player:
     websocket: WebSocket
@@ -104,22 +79,15 @@ def get_user_with_username(username: str) -> UserInDB | None:
         return UserInDB(**user_as_dict)
 
 
-@app.post("/register", status_code=status.HTTP_201_CREATED, tags=["users"])
-async def create_new_user(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> User:
-    if get_user_with_username(form_data.username):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User already exists. Please login"
-        )
-    
-    hashed_password = crypt_context.hash(form_data.password)
-    user = UserInDB(username=form_data.username, hashed_password=hashed_password)
-    database.users.insert_one(dict(user))
-    return user
+def create_access_token(username: str, expires_in: timedelta) -> Token:
+    expiration_time = (datetime.now(UTC) + expires_in).timestamp()
+    token_data = {"sub": username, "exp": expiration_time}
+    encoded_token = jwt.encode(token_data, JWT_SECRET_KEY)
+    return Token(access_token=encoded_token)
 
 
-@app.post("/access-token", status_code=status.HTTP_201_CREATED, tags=["auth"])
-async def create_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> dict[str, str]:
+@app.post("/login", status_code=status.HTTP_201_CREATED, tags=["auth"])
+async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
     user = get_user_with_username(form_data.username)
     
     if not user:
@@ -134,21 +102,42 @@ async def create_access_token(form_data: Annotated[OAuth2PasswordRequestForm, De
             detail="Wrong password"
         )
     
-    token_data = TokenData(user.username, TokenData.calc_exp(ACCESS_TOKEN_LIFE_TIME_IN_SECONDS))
-    return {"access_token": token_data.encode(ACCESS_TOKEN_SECRET_KEY)}
+    return create_access_token(user.username, timedelta(weeks=1))
+
+
+@app.post("/register", status_code=status.HTTP_201_CREATED, tags=["users"])
+async def create_new_user(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> User:
+    if get_user_with_username(form_data.username):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User already exists. Please login"
+        )
+    
+    hashed_password = crypt_context.hash(form_data.password)
+    user = UserInDB(username=form_data.username, hashed_password=hashed_password)
+    database.users.insert_one(dict(user))
+    return user
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="access-token")
 
 
-def get_user_with_token(token: str, secret_key: str) -> UserInDB:
-    token_data = TokenData.decode(token, secret_key)
-    user = get_user_with_username(token_data.subject)    
-    return user # type: ignore (because tokens are created only for existing users)
+def get_user_with_token(token: str) -> UserInDB:
+    try:
+        token_data =jwt.decode(token, JWT_SECRET_KEY)
+        username = token_data["sub"]
+        user = get_user_with_username(username)
+        return user # type: ignore (User can't be None because tokens are created only for existing users)
+    except (JWTError, ExpiredSignatureError, JWTClaimsError):
+        raise HTTPException(
+            status.HTTP_401_UNAUTHORIZED, 
+            "Invalid token. Please login again.", 
+            {"WWW-Authenticate": "Bearer"}
+        )
 
 
 async def get_authenticated_user(access_token: Annotated[str, Depends(oauth2_scheme)]) -> UserInDB:
-    return get_user_with_token(access_token, ACCESS_TOKEN_SECRET_KEY)
+    return get_user_with_token(access_token)
 
 
 @app.get("/me", tags=["users"])
@@ -157,9 +146,8 @@ async def read_user_me(user: Annotated[UserInDB, Depends(get_authenticated_user)
 
 
 @app.post("/websockets-token", status_code=status.HTTP_201_CREATED, tags=["auth"])
-async def create_websockets_token(user: Annotated[UserInDB, Depends(get_authenticated_user)]) -> dict[str, str]:
-    token_data = TokenData(user.username, TokenData.calc_exp(WS_TOKEN_LIFE_TIME_IN_SECONDS))
-    return {"websockets_token": token_data.encode(WS_TOKEN_SECRET_KEY)}
+async def create_websockets_token(user: Annotated[UserInDB, Depends(get_authenticated_user)]) -> Token:
+    return create_access_token(user.username, timedelta(seconds=5))
 
 
 two_players_matchmaking_pool: list[Player] = []
@@ -168,7 +156,7 @@ four_players_matchmaking_pool: list[Player] = []
 
 async def run_match_syncronizer(port: int = 50000, players_amount: int = 2) -> None:
     process = await asyncio.create_subprocess_exec(
-        "match_syncronizer",
+        "match_syncronizer.exe",
         "--headless",
         f"--port={port}",
         f"--players_amount={players_amount}",
@@ -181,9 +169,9 @@ async def run_match_syncronizer(port: int = 50000, players_amount: int = 2) -> N
 
 
 @app.websocket("/match")
-async def match(websocket: WebSocket, websockets_token: str, players_amount: int) -> None:
+async def match(websocket: WebSocket, access_token: str, players_amount: int) -> None:
     # If token is not valid, 401 Unauthorized exception will be raised
-    user = get_user_with_token(websockets_token, WS_TOKEN_SECRET_KEY)
+    user = get_user_with_token(access_token)
     
     if players_amount != 2 and players_amount != 4:
         raise WebSocketException(status.WS_1003_UNSUPPORTED_DATA, "Invalid players amount. It must be either 2 or 4")

@@ -39,7 +39,7 @@ func connect_to_websocket(endpoint: String, args: Dictionary = {}) -> Error:
 		return FAILED
 	
 	_websocket_is_open = true
-	args["websockets_token"] = token_response.body["websockets_token"]
+	args.merge(token_response.body)
 	return _websocket.connect_to_url(build_url("ws", endpoint, args))
 
 

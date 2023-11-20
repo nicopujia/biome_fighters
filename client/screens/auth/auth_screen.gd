@@ -31,12 +31,12 @@ func _on_auth_button_pressed(endpoint: StringName) -> void:
 		_set_buttons_avaiability(true)
 		return
 		
-	if endpoint == "/access-token":
+	if endpoint == "/login":
 		UserData.save_value("Auth", "access_token", response.body["access_token"])
 		get_tree().change_scene_to_file("res://screens/main_menu/main_menu_screen.tscn")
 	else:
 		_info_label.text = "User registered. Logging in..."
-		_on_auth_button_pressed("/access-token")
+		_on_auth_button_pressed("/login")
 
 
 func _fields_are_valid() -> bool:
