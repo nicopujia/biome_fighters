@@ -5,17 +5,29 @@ import uvicorn
 from dataclasses import dataclass
 from datetime import datetime, timedelta, UTC
 from enum import Enum
+from os import environ
 from random import choice as random_choice
 from typing import Annotated, Self
 
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, WebSocketException, status, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt
 from jose.exceptions import JWTError, JWTClaimsError, ExpiredSignatureError
 from pymongo.mongo_client import MongoClient
 from pydantic import BaseModel
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from passlib.context import CryptContext
+
+
+load_dotenv("./.env", override=True, verbose=True)
+
+
+DB_URI: str = environ["DB_URI"]
+JWT_ALGORITHM: str = environ["JWT_ALGORITHM"]
+ACCESS_TOKEN_SECRET_KEY: str = environ["ACCESS_TOKEN_SECRET_KEY"]
+ACCESS_TOKEN_LIFE_TIME_IN_SECONDS: int = int(environ["ACCESS_TOKEN_LIFE_TIME_IN_SECONDS"])
+WS_TOKEN_SECRET_KEY: str = environ["WS_TOKEN_SECRET_KEY"]
+WS_TOKEN_LIFE_TIME_IN_SECONDS: int = int(environ["WS_TOKEN_LIFE_TIME_IN_SECONDS"])
 
 
 class TokenData:    
@@ -24,12 +36,12 @@ class TokenData:
         self.expiration_time = exp
     
     def encode(self, secret_key: str) -> str:
-        return jwt.encode({"sub": self.subject, "exp": self.expiration_time}, secret_key, settings.jwt_algorithm)
+        return jwt.encode({"sub": self.subject, "exp": self.expiration_time}, secret_key, JWT_ALGORITHM)
 
     @classmethod
     def decode(cls, token: str, secret_key: str) -> Self:
         try:
-            return TokenData(**jwt.decode(token, secret_key, (settings.jwt_algorithm)))
+            return TokenData(**jwt.decode(token, secret_key, (JWT_ALGORITHM)))
         except (JWTError, ExpiredSignatureError, JWTClaimsError):
             raise HTTPException(
                 status.HTTP_401_UNAUTHORIZED, 
@@ -80,23 +92,8 @@ class Player:
     user: User
 
 
-class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env")
-    
-    db_uri: str
-    
-    jwt_algorithm: str
-    
-    access_token_secret_key: str
-    access_token_life_time_in_seconds: int
-    
-    ws_token_secret_key: str
-    ws_token_life_time_in_seconds: int
-
-
 app = FastAPI()
-settings = Settings() # type: ignore
-database = MongoClient(settings.db_uri).database
+database = MongoClient(DB_URI).database
 crypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 logging.basicConfig(level=logging.INFO, format="%(levelname)s:     %(message)s")
 
@@ -137,8 +134,8 @@ async def create_access_token(form_data: Annotated[OAuth2PasswordRequestForm, De
             detail="Wrong password"
         )
     
-    token_data = TokenData(user.username, TokenData.calc_exp(settings.access_token_life_time_in_seconds))
-    return {"access_token": token_data.encode(settings.access_token_secret_key)}
+    token_data = TokenData(user.username, TokenData.calc_exp(ACCESS_TOKEN_LIFE_TIME_IN_SECONDS))
+    return {"access_token": token_data.encode(ACCESS_TOKEN_SECRET_KEY)}
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="access-token")
@@ -151,7 +148,7 @@ def get_user_with_token(token: str, secret_key: str) -> UserInDB:
 
 
 async def get_authenticated_user(access_token: Annotated[str, Depends(oauth2_scheme)]) -> UserInDB:
-    return get_user_with_token(access_token, settings.access_token_secret_key)
+    return get_user_with_token(access_token, ACCESS_TOKEN_SECRET_KEY)
 
 
 @app.get("/me", tags=["users"])
@@ -161,8 +158,8 @@ async def read_user_me(user: Annotated[UserInDB, Depends(get_authenticated_user)
 
 @app.post("/websockets-token", status_code=status.HTTP_201_CREATED, tags=["auth"])
 async def create_websockets_token(user: Annotated[UserInDB, Depends(get_authenticated_user)]) -> dict[str, str]:
-    token_data = TokenData(user.username, TokenData.calc_exp(settings.ws_token_life_time_in_seconds))
-    return {"websockets_token": token_data.encode(settings.ws_token_secret_key)}
+    token_data = TokenData(user.username, TokenData.calc_exp(WS_TOKEN_LIFE_TIME_IN_SECONDS))
+    return {"websockets_token": token_data.encode(WS_TOKEN_SECRET_KEY)}
 
 
 two_players_matchmaking_pool: list[Player] = []
@@ -186,7 +183,7 @@ async def run_match_syncronizer(port: int = 50000, players_amount: int = 2) -> N
 @app.websocket("/match")
 async def match(websocket: WebSocket, websockets_token: str, players_amount: int) -> None:
     # If token is not valid, 401 Unauthorized exception will be raised
-    user = get_user_with_token(websockets_token, settings.ws_token_secret_key)
+    user = get_user_with_token(websockets_token, WS_TOKEN_SECRET_KEY)
     
     if players_amount != 2 and players_amount != 4:
         raise WebSocketException(status.WS_1003_UNSUPPORTED_DATA, "Invalid players amount. It must be either 2 or 4")
