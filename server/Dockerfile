@@ -21,4 +21,4 @@ RUN godot --path /code/match_syncronizer --headless --export-release Linux /usr/
 # Run server
 COPY ./main.py /code/main.py
 EXPOSE 8000 49151-65535
-CMD ["python", "/code/main.py"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]

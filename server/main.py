@@ -192,7 +192,6 @@ async def match(websocket: WebSocket, access_token: str) -> None:
                 "code": WebSocketMessageCode.OPPONENT_FOUND.value, 
                 "body": {
                     "port": port,
-                    "map": "valley",
                     "users": match_players_user,
                 },
             })
@@ -210,7 +209,7 @@ async def match(websocket: WebSocket, access_token: str) -> None:
             matchmaking_pool.remove(player)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' and platform == "win32":
     config = uvicorn.Config(app=app, host="0.0.0.0", port=8000)
     
     # There are two event loops: Selector and Proactor. Using SelectorEventLoop on
@@ -223,5 +222,5 @@ if __name__ == '__main__':
             asyncio.set_event_loop(loop)
             asyncio.run(self.serve(sockets=sockets))
             
-    server = ProactorServer(config) if platform == "win32" else uvicorn.Server(config)
+    server = ProactorServer(config)
     server.run()
