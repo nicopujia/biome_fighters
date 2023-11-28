@@ -11,12 +11,14 @@ RUN wget https://downloads.tuxfamily.org/godotengine/4.1.1/Godot_v4.1.1-stable_l
     && mkdir ~/.cache \
     && mkdir -p ~/.config/godot \
     && unzip /code/Godot_v4.1.1-stable_linux.x86_64.zip \
-    && mv /code/Godot_v4.1.1-stable_linux.x86_64 /usr/local/bin/godot \
-    && rm /code/Godot_v4.1.1-stable_linux.x86_64.zip
+    && rm /code/Godot_v4.1.1-stable_linux.x86_64.zip \
+    && mv /code/Godot_v4.1.1-stable_linux.x86_64 /code/godot.x86_64 \
+    && chmod +x /code/godot.x86_64
 
 # Install match_syncronizer
 COPY ./match_syncronizer /code/match_syncronizer
-RUN godot --path /code/match_syncronizer --headless --export-release Linux /usr/local/bin/match_syncronizer/match_syncronizer.x86_64
+RUN godot --path /code/match_syncronizer --headless --export-release Linux /code/match_syncronizer.x86_64
+RUN chmod +x /code/match_syncronizer.x86_64
 
 # Run server
 COPY ./main.py /code/main.py
