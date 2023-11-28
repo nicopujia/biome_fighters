@@ -2,7 +2,6 @@ import asyncio
 import logging
 import subprocess
 import uvicorn
-from asyncio.windows_events import ProactorEventLoop
 from dataclasses import dataclass
 from datetime import datetime, timedelta, UTC
 from enum import Enum
@@ -212,9 +211,11 @@ async def match(websocket: WebSocket, access_token: str) -> None:
 if __name__ == '__main__' and platform == "win32":
     config = uvicorn.Config(app=app, host="0.0.0.0", port=8000)
     
-    # There are two event loops: Selector and Proactor. Using SelectorEventLoop on
-    # Windows raises "NotImplementedError" when trying to run a subprocess.
+    # There are two event loops: Selector and Proactor. Using SelectorEventLoop (the
+    # default) on Windows raises "NotImplementedError" when trying to run a subprocess.
     # Running the server this way because solves the error
+    
+    from asyncio.windows_events import ProactorEventLoop
     
     class ProactorServer(uvicorn.Server):
         def run(self, sockets=None):
