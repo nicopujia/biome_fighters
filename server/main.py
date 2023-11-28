@@ -2,6 +2,7 @@ import asyncio
 import logging
 import subprocess
 import uvicorn
+from asyncio.windows_events import ProactorEventLoop
 from dataclasses import dataclass
 from datetime import datetime, timedelta, UTC
 from enum import Enum
@@ -218,7 +219,7 @@ if __name__ == '__main__':
     
     class ProactorServer(uvicorn.Server):
         def run(self, sockets=None):
-            loop = asyncio.ProactorEventLoop()
+            loop = ProactorEventLoop()
             asyncio.set_event_loop(loop)
             asyncio.run(self.serve(sockets=sockets))
             
