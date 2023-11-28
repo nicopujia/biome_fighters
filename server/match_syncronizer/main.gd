@@ -11,7 +11,6 @@ const REPLICATION_PROPERTIES = [
 var replication_config: SceneReplicationConfig = SceneReplicationConfig.new()
 var connected_peer_ids: PackedInt32Array = []
 var port: int
-var players_amount: int
 
 
 func _ready() -> void:
@@ -21,7 +20,7 @@ func _ready() -> void:
 		replication_config.add_property(property)
 	
 	var multiplayer_peer = ENetMultiplayerPeer.new()
-	var error: Error = multiplayer_peer.create_server(port, players_amount)
+	var error: Error = multiplayer_peer.create_server(port, 2)
 	multiplayer_peer.peer_connected.connect(_on_peer_connected)
 	multiplayer_peer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.multiplayer_peer = multiplayer_peer
@@ -38,7 +37,6 @@ func _get_argurments() -> void:
 			arguments[argument.lstrip("--")] = ""
 	
 	port = arguments.get("port", 50000)
-	players_amount = arguments.get("players_amount", 2)
 
 
 func _on_peer_connected(new_peer_id : int) -> void:
@@ -48,8 +46,8 @@ func _on_peer_connected(new_peer_id : int) -> void:
 	print("Peer %s joined" % new_peer_id)
 	print("Currently connected peers: ", connected_peer_ids)
 	
-	if len(connected_peer_ids) == players_amount:
-		print("%s peers have joined. Starting the game..." % players_amount)
+	if len(connected_peer_ids) == 2:
+		print("Both peers have joined. Starting the game...")
 		rpc("_start_game", connected_peer_ids)
 
 

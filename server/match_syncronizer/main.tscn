@@ -11,10 +11,6 @@ script = ExtResource("1_n1p2j")
 
 [node name="SpawnPoints" type="Node" parent="Battle/Map"]
 
-[node name="Player0" type="Node" parent="Battle/Map/SpawnPoints"]
-
 [node name="Player1" type="Node" parent="Battle/Map/SpawnPoints"]
 
 [node name="Player2" type="Node" parent="Battle/Map/SpawnPoints"]
-
-[node name="Player3" type="Node" parent="Battle/Map/SpawnPoints"]

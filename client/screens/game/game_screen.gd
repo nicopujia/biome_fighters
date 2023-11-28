@@ -7,7 +7,7 @@ var players_user: Array
 func _ready() -> void:
 	Server.received_websocket_message.connect(_on_received_websocket_message)
 	LoadingScreen.set_state(true, "Joining matchmaking...")
-	await Server.connect_to_websocket("/match", {"players_amount": 2})
+	await Server.connect_to_websocket("/match")
 	LoadingScreen.set_state(true, "Waiting for an opponent...", "Cancel", _on_cancel_matchmaking_button_pressed)
 
 

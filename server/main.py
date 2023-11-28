@@ -7,10 +7,11 @@ from datetime import datetime, timedelta, UTC
 from enum import Enum
 from os import environ
 from random import choice as random_choice
+from sys import platform
 from typing import Annotated
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, WebSocketException, status, Depends
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, status, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt
 from jose.exceptions import JWTError, JWTClaimsError, ExpiredSignatureError
@@ -150,16 +151,14 @@ async def create_websockets_token(user: Annotated[UserInDB, Depends(get_authenti
     return create_access_token(user.username, timedelta(seconds=5))
 
 
-two_players_matchmaking_pool: list[Player] = []
-four_players_matchmaking_pool: list[Player] = []
+matchmaking_pool: list[Player] = []
 
 
-async def run_match_syncronizer(port: int = 50000, players_amount: int = 2) -> None:
+async def run_match_syncronizer(port: int = 50000) -> None:
     process = await asyncio.create_subprocess_exec(
-        "match_syncronizer.exe",
+        "match_syncronizer",
         "--headless",
         f"--port={port}",
-        f"--players_amount={players_amount}",
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
@@ -169,28 +168,23 @@ async def run_match_syncronizer(port: int = 50000, players_amount: int = 2) -> N
 
 
 @app.websocket("/match")
-async def match(websocket: WebSocket, access_token: str, players_amount: int) -> None:
+async def match(websocket: WebSocket, access_token: str) -> None:
     # If token is not valid, 401 Unauthorized exception will be raised
     user = get_user_with_token(access_token)
     
-    if players_amount != 2 and players_amount != 4:
-        raise WebSocketException(status.WS_1003_UNSUPPORTED_DATA, "Invalid players amount. It must be either 2 or 4")
-
     await websocket.accept()
     
-    matchmaking_pool = two_players_matchmaking_pool if players_amount == 2 else four_players_matchmaking_pool
     player = Player(websocket, user)
-    matchmaking_pool.append(player)
     
     logging.info(f"{user.username} joined the matchmaking.")
     
-    if len(matchmaking_pool) == players_amount:
-        match_players: list[Player] = [matchmaking_pool.pop(0) for _ in range(players_amount)]
+    if len(matchmaking_pool) > 0:
+        match_players = matchmaking_pool.pop(0), player
         match_players_user = list(map(lambda player: player.user.model_dump(exclude={"hashed_password": True}), match_players))
         port = PortsManager.get_unused()
-        asyncio.create_task(run_match_syncronizer(port, players_amount))
+        asyncio.create_task(run_match_syncronizer(port))
         
-        logging.info(f"Started new match at port {port}: {" vs ".join(map(lambda user: user["username"], match_players_user))}")
+        logging.info(f"Started new match at port {port}: {player.user.username} vs {match_players[0].user.username}")
         
         for match_player in match_players:
             await match_player.websocket.send_json({
@@ -201,7 +195,10 @@ async def match(websocket: WebSocket, access_token: str, players_amount: int) ->
                     "users": match_players_user,
                 },
             })
-    
+  
+    else:
+        matchmaking_pool.append(player)
+
     try:
         # Keep the websockets connection open
         while True:
@@ -213,17 +210,17 @@ async def match(websocket: WebSocket, access_token: str, players_amount: int) ->
 
 
 if __name__ == '__main__':
-    # There are two event loops: Selector and Proactor. Using SelectorEventLoop on
-    # Windows raises "NotImplementedError" when trying to run a subprocess
+    config = uvicorn.Config(app=app, host="0.0.0.0", port=8000)
     
-    # I run the server this way because it solves the error
+    # There are two event loops: Selector and Proactor. Using SelectorEventLoop on
+    # Windows raises "NotImplementedError" when trying to run a subprocess.
+    # Running the server this way because solves the error
     
     class ProactorServer(uvicorn.Server):
         def run(self, sockets=None):
             loop = asyncio.ProactorEventLoop()
             asyncio.set_event_loop(loop)
             asyncio.run(self.serve(sockets=sockets))
-
-    config = uvicorn.Config(app=app, host="0.0.0.0", port=8000)
-    server = ProactorServer(config)
+            
+    server = ProactorServer(config) if platform == "win32" else uvicorn.Server(config)
     server.run()
