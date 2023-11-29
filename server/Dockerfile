@@ -17,7 +17,7 @@ RUN wget https://downloads.tuxfamily.org/godotengine/4.1.1/Godot_v4.1.1-stable_l
 
 # Install match_syncronizer
 COPY ./match_syncronizer /code/match_syncronizer
-RUN godot --path /code/match_syncronizer --headless --export-release Linux /code/match_syncronizer.x86_64
+RUN /code/godot.x86_64 --path /code/match_syncronizer --headless --export-release Linux /code/match_syncronizer.x86_64
 RUN chmod +x /code/match_syncronizer.x86_64
 
 # Run server
