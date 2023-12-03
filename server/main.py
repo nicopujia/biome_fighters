@@ -71,7 +71,7 @@ class Player:
 app = FastAPI()
 database = MongoClient(DB_URI).database
 crypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-logging.basicConfig(level=logging.INFO, format="%(levelname)s:     %(message)s")
+logging.basicConfig(level=logging.DEBUG, format="%(levelname)s:     %(message)s")
 
 
 def get_user_with_username(username: str) -> UserInDB | None:
@@ -154,7 +154,10 @@ async def create_websockets_token(user: Annotated[UserInDB, Depends(get_authenti
 matchmaking_pool: list[Player] = []
 
 
-async def run_match_syncronizer(port: int = 50000) -> None:
+async def run_match_syncronizer(port: int | None = None) -> None:
+    if port == None:
+        port = PortsManager.get_unused()
+    
     process = await asyncio.create_subprocess_exec(
         "match_syncronizer.exe" if platform == "win32" else "/code/match_syncronizer.x86_64",
         "--headless",
@@ -176,7 +179,7 @@ async def match(websocket: WebSocket, access_token: str) -> None:
     
     player = Player(websocket, user)
     
-    logging.info(f"{user.username} joined the matchmaking.")
+    logging.debug(f"{user.username} joined the matchmaking.")
     
     if len(matchmaking_pool) > 0:
         match_players = matchmaking_pool.pop(0), player
@@ -184,7 +187,7 @@ async def match(websocket: WebSocket, access_token: str) -> None:
         port = PortsManager.get_unused()
         asyncio.create_task(run_match_syncronizer(port))
         
-        logging.info(f"Started new match at port {port}: {player.user.username} vs {match_players[0].user.username}")
+        logging.info(f"Started new match: {player.user.username} vs {match_players[0].user.username}")
         
         for match_player in match_players:
             await match_player.websocket.send_json({
@@ -194,7 +197,7 @@ async def match(websocket: WebSocket, access_token: str) -> None:
                     "users": match_players_user,
                 },
             })
-  
+
     else:
         matchmaking_pool.append(player)
 
@@ -203,14 +206,12 @@ async def match(websocket: WebSocket, access_token: str) -> None:
         while True:
             await websocket.receive_text()
     except WebSocketDisconnect as disconnection:
-        logging.info(f"{user.username} disconnected from match websocket with code {disconnection.code}, reason {disconnection.reason}")
+        logging.debug(f"{user.username} disconnected from match websocket with code {disconnection.code}, reason {disconnection.reason}")
         if player in matchmaking_pool:
             matchmaking_pool.remove(player)
 
 
 if __name__ == '__main__' and platform == "win32":
-    config = uvicorn.Config(app=app, host="0.0.0.0", port=8000)
-    
     # There are two event loops: Selector and Proactor. Using SelectorEventLoop (the
     # default) on Windows raises "NotImplementedError" when trying to run a subprocess.
     # Running the server this way because solves the error
@@ -223,5 +224,5 @@ if __name__ == '__main__' and platform == "win32":
             asyncio.set_event_loop(loop)
             asyncio.run(self.serve(sockets=sockets))
             
-    server = ProactorServer(config)
+    server = ProactorServer(uvicorn.Config(app))
     server.run()
