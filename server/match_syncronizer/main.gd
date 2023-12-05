@@ -3,9 +3,9 @@ extends Node
 
 const REPLICATION_PROPERTIES: PackedStringArray = [
 	"Player:position",
-	"AnimatedSprite2D:animation",
-	"AnimatedSprite2D:frame",
-	"AnimatedSprite2D:flip_h",
+	"AnimationPlayer:current_animation",
+	"AnimationPlayer:current_animation_position",
+	"Sprite2D:flip_h",
 ]
 
 var replication_config: SceneReplicationConfig = SceneReplicationConfig.new()

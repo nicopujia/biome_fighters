@@ -30,7 +30,7 @@ vertical_alignment = 1
 [node name="UsernameInput" type="LineEdit" parent="Content"]
 layout_mode = 2
 placeholder_text = "Username"
-max_length = 30
+max_length = 20
 
 [node name="PasswordInput" type="LineEdit" parent="Content"]
 layout_mode = 2

@@ -32,7 +32,7 @@ func _on_auth_button_pressed(endpoint: StringName) -> void:
 		return
 		
 	if endpoint == "/login":
-		UserData.save_value("Auth", "access_token", response.body["access_token"])
+		PersistentData.save_value("Auth", "access_token", response.body["access_token"])
 		get_tree().change_scene_to_file("res://screens/main_menu/main_menu_screen.tscn")
 	else:
 		_info_label.text = "User registered. Logging in..."

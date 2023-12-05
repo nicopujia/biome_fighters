@@ -3,3 +3,8 @@
 
 export_presets.cfg
 .exports/
+
+# AsepriteWizard addon
+addons/AsepriteWizard
+.aseprite_wizard_history
+*.ase.import

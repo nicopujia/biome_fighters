@@ -51,7 +51,7 @@ class WebSocketMessageCode(Enum):
 
 class User(BaseModel):
     username: str
-    character: str = "diamond"
+    character: str = "cactus"
 
 
 class UserInDB(User):

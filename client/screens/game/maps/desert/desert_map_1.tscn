@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://xnu1wgo6syjj"]
+
+[ext_resource type="PackedScene" uid="uid://luo7evmlgkrg" path="res://screens/game/maps/base_map.tscn" id="1_6byi3"]
+[ext_resource type="Texture2D" uid="uid://xaiffh7na7yr" path="res://screens/game/maps/desert/background.png" id="2_lmdoq"]
+[ext_resource type="TileSet" uid="uid://uj8d4p7c8s6h" path="res://screens/game/maps/desert/tileset.tres" id="3_1xcq5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qf30y"]
+atlas = ExtResource("2_lmdoq")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hj0q0"]
+atlas = ExtResource("2_lmdoq")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uo1a0"]
+atlas = ExtResource("2_lmdoq")
+region = Rect2(0, 96, 96, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m51ho"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qf30y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hj0q0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uo1a0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hj0q0")
+}],
+"loop": true,
+"name": &"Loop",
+"speed": 4.0
+}]
+
+[node name="Map" instance=ExtResource("1_6byi3")]
+
+[node name="Background" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_m51ho")
+animation = &"Loop"
+autoplay = "Loop"
+frame_progress = 0.205003
+
+[node name="TileMap" parent="." index="2"]
+tile_set = ExtResource("3_1xcq5")
+layer_0/tile_data = PackedInt32Array(720905, 1, 0, 720906, 1, 0, 720907, 1, 0, 720897, 1, 0, 720898, 1, 0, 720896, 1, 0, 589829, 1, 0, 589830, 1, 0, 393216, 1, 0, 393225, 1, 0, 393226, 1, 0, 393227, 1, 0, 196613, 1, 0, 196614, 1, 0, 262144, 65537, 0, 327680, 131073, 0, 262155, 65537, 0, 327691, 131073, 0, 196608, 1, 0, 196619, 1, 0, 393218, 1, 0, 393217, 1, 0, 196609, 196609, 0, 196610, 262145, 0, 196611, 262145, 0, 196612, 327681, 0, 196615, 196609, 0, 196616, 262145, 0, 196617, 262145, 0, 196618, 327681, 0, 393221, 262145, 0, 393222, 262145, 0, 393220, 262145, 0, 393219, 196609, 0, 393224, 327681, 0, 393223, 262145, 0)
+
+[node name="Player1" parent="SpawnPoints" index="0"]
+position = Vector2(84, 76)
+
+[node name="Player2" parent="SpawnPoints" index="1"]
+position = Vector2(12, 76)

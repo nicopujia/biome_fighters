@@ -1,7 +1,7 @@
 extends Panel
 
 
-var players_user: Array
+var match_users: Array
 
 
 func _ready() -> void:
@@ -13,9 +13,10 @@ func _ready() -> void:
 
 func _on_received_websocket_message(message: Server.WebSocketMessage) -> void:
 	if message.code == Server.WebSocketMessageCode.OPPONENT_FOUND:
+		await get_tree().create_timer(3).timeout
 		LoadingScreen.set_state(true, "Opponent found!")
-		players_user = message.body["users"]
-		var map: Node = load("res://screens/game/maps/%s/map.tscn" % message.body["map"]).instantiate()
+		match_users = message.body["users"]
+		var map: Node = preload("res://screens/game/maps/desert/desert_map_1.tscn").instantiate()
 		$Battle.add_child(map)
 		var multiplayer_peer = ENetMultiplayerPeer.new()
 		multiplayer_peer.create_client(Server.ADDRESS.get_slice(":", 0), message.body["port"])
@@ -33,8 +34,8 @@ func _start_game(peer_ids: PackedInt32Array):
 	LoadingScreen.set_state(true, "Loading combat arena...")
 	
 	for i in len(peer_ids):
-		var user_data: Dictionary = players_user[i]
-		var player_data_node: Node = get_node("PlayersData/Player" + str(i))
+		var user_data: Dictionary = match_users[i]
+		var player_data_node: Node = get_node("PlayersData/Player%s/VBoxContainer" % (i + 1))
 		player_data_node.get_node("Username").text = user_data["username"]
 		player_data_node.show()
 		
@@ -42,8 +43,8 @@ func _start_game(peer_ids: PackedInt32Array):
 		var id: int = peer_ids[i]
 		player.set_multiplayer_authority(id)
 		player.name = str(id)
-		player.sprite_frames_path = "res://screens/game/player/characters/%s/sprite_frames.tres"  %  user_data["character"]
-		player.starts_looking_left = i % 2 == 1
-		get_node("Battle/Map/SpawnPoints/Player" + str(i)).add_child(player)
+		player.sprite_frames_path = "res://common/characters/spritesheets/%.png" % user_data["character"]
+		player.starts_looking_left = i % 2 == 0
+		get_node("Battle/Map/SpawnPoints/Player" + str(i + 1)).add_child(player)
 	
 	LoadingScreen.set_state(false)

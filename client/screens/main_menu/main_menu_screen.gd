@@ -33,7 +33,7 @@ func _show_user_data(data: Dictionary):
 
 
 func _on_logout_button_pressed() -> void:
-	UserData.save_value("Auth", "access_token", "")
+	PersistentData.save_value("Auth", "access_token", "")
 	get_tree().change_scene_to_file("res://screens/auth/auth_screen.tscn")
 
 

@@ -1,64 +1,81 @@
-[gd_scene load_steps=19 format=3 uid="uid://b0yrwvujlggal"]
+[gd_scene load_steps=24 format=3 uid="uid://b0yrwvujlggal"]
 
-[ext_resource type="Texture2D" uid="uid://ffcwxnwfr6yi" path="res://screens/game/hud.png" id="1_m21ki"]
 [ext_resource type="Script" path="res://screens/game/game_screen.gd" id="1_nspun"]
-[ext_resource type="PackedScene" uid="uid://4janm1i4e80r" path="res://screens/game/player_data.tscn" id="2_akrs5"]
+[ext_resource type="Texture2D" uid="uid://18skdoedk0xj" path="res://common/characters/idle_poses/cactus.tres" id="2_j7rx1"]
+[ext_resource type="Texture2D" uid="uid://bwgonxgvyxh2q" path="res://screens/game/hud.png" id="4_n2bwq"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gmul2"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(37.9712, 5, 4.02881, 4)
+[sub_resource type="AtlasTexture" id="AtlasTexture_4uu5i"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(0, 14, 4, 4)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jowkc"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(38, 1, 4, 4)
+[sub_resource type="AtlasTexture" id="AtlasTexture_shh6g"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(0, 0, 4, 4)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ss1tw"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(38, 18, 4, 4)
+[sub_resource type="AtlasTexture" id="AtlasTexture_37wpm"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(0, 9, 4, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rqulm"]
 size = Vector2(12, 4)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6iwot"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(42, 4, 4, 6)
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vxij"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(0, 0, 4, 5)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vefvq"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(42, 20, 4, 7)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ycbg0"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(0, 9, 4, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bwbr5"]
 size = Vector2(4, 12)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x0d1c"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(38, 8, 4, 6)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_7kewi"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(38, 24, 4, 6)
+atlas = ExtResource("4_n2bwq")
+region = Rect2(0, 4, 4, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3c7r8"]
 size = Vector2(12, 4)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_prgrg"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(34, 4, 4, 6)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bydyu"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(34, 20, 4, 6)
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsk7a"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(0, 9, 4, 5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n8ehp"]
 size = Vector2(4, 12)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gujqa"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(0, 16, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvrmq"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(20, 0, 8, 9)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_iuhsl"]
-atlas = ExtResource("1_m21ki")
-region = Rect2(16, 16, 16, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_47da4"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(20, 9, 8, 9)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fxxvg"]
+radius = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3y03u"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(12, 0, 8, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhpc6"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(12, 9, 8, 9)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l77sg"]
+radius = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fwjpo"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(4, 0, 8, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_worch"]
+atlas = ExtResource("4_n2bwq")
+region = Rect2(4, 9, 8, 9)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fyoey"]
+radius = 6.0
 
 [node name="GameScreen" type="Panel"]
 anchors_preset = 15
@@ -72,26 +89,73 @@ script = ExtResource("1_nspun")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 4.0
-offset_top = 9.0
-offset_right = -4.0
-offset_bottom = 48.0
+offset_top = 3.0
+offset_bottom = 23.0
 grow_horizontal = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 
-[node name="Player0" parent="PlayersData" instance=ExtResource("2_akrs5")]
+[node name="Player1" type="HBoxContainer" parent="PlayersData"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+alignment = 1
 
-[node name="Player1" parent="PlayersData" instance=ExtResource("2_akrs5")]
+[node name="TextureRect" type="TextureRect" parent="PlayersData/Player1"]
 layout_mode = 2
+texture = ExtResource("2_j7rx1")
+expand_mode = 3
+stretch_mode = 5
 
-[node name="Player2" parent="PlayersData" instance=ExtResource("2_akrs5")]
-visible = false
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayersData/Player1"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="Player3" parent="PlayersData" instance=ExtResource("2_akrs5")]
-visible = false
+[node name="Username" type="Label" parent="PlayersData/Player1/VBoxContainer"]
 layout_mode = 2
+text = "Player 1"
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="Lifebar" type="ProgressBar" parent="PlayersData/Player1/VBoxContainer"]
+layout_mode = 2
+value = 100.0
+
+[node name="VersusLabel" type="Label" parent="PlayersData"]
+layout_mode = 2
+text = "vs"
+vertical_alignment = 1
+
+[node name="Player2" type="HBoxContainer" parent="PlayersData"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayersData/Player2"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Username" type="Label" parent="PlayersData/Player2/VBoxContainer"]
+layout_mode = 2
+text = "Player 2"
+horizontal_alignment = 2
+vertical_alignment = 1
+autowrap_mode = 1
+
+[node name="Lifebar" type="ProgressBar" parent="PlayersData/Player2/VBoxContainer"]
+layout_mode = 2
+value = 100.0
+fill_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="PlayersData/Player2"]
+layout_mode = 2
+texture = ExtResource("2_j7rx1")
+expand_mode = 3
+stretch_mode = 5
+flip_h = true
 
 [node name="Battle" type="Panel" parent="."]
 layout_mode = 1
@@ -100,10 +164,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -96.0
-offset_top = -216.0
-offset_right = 96.0
-offset_bottom = -24.0
+offset_left = -48.0
+offset_top = -100.0
+offset_right = 48.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -115,54 +179,45 @@ anchor_bottom = 1.0
 grow_vertical = 0
 
 [node name="DPad" type="Node2D" parent="DPadContainer"]
-position = Vector2(32, -128)
-scale = Vector2(8, 8)
+position = Vector2(32, -34)
+scale = Vector2(4, 4)
 metadata/_edit_group_ = true
 
-[node name="Center" type="TouchScreenButton" parent="DPadContainer/DPad"]
-position = Vector2(4, 4)
-texture_normal = SubResource("AtlasTexture_gmul2")
-visibility_mode = 1
+[node name="Center" type="Sprite2D" parent="DPadContainer/DPad"]
+position = Vector2(0, -1.5)
+texture = SubResource("AtlasTexture_4uu5i")
 
 [node name="Up" type="TouchScreenButton" parent="DPadContainer/DPad"]
-position = Vector2(4, 0)
-texture_normal = SubResource("AtlasTexture_jowkc")
-texture_pressed = SubResource("AtlasTexture_ss1tw")
+position = Vector2(-2, -7.5)
+texture_normal = SubResource("AtlasTexture_shh6g")
+texture_pressed = SubResource("AtlasTexture_37wpm")
 shape = SubResource("RectangleShape2D_rqulm")
-shape_visible = false
 passby_press = true
 action = "ui_up"
-visibility_mode = 1
 
 [node name="Right" type="TouchScreenButton" parent="DPadContainer/DPad"]
-position = Vector2(8, 3)
-texture_normal = SubResource("AtlasTexture_6iwot")
-texture_pressed = SubResource("AtlasTexture_vefvq")
+position = Vector2(2, -3.5)
+texture_normal = SubResource("AtlasTexture_7vxij")
+texture_pressed = SubResource("AtlasTexture_ycbg0")
 shape = SubResource("RectangleShape2D_bwbr5")
-shape_visible = false
 passby_press = true
 action = "ui_right"
-visibility_mode = 1
 
 [node name="Down" type="TouchScreenButton" parent="DPadContainer/DPad"]
-position = Vector2(4, 7)
-texture_normal = SubResource("AtlasTexture_x0d1c")
+position = Vector2(-2, 0.5)
+texture_normal = SubResource("AtlasTexture_7vxij")
 texture_pressed = SubResource("AtlasTexture_7kewi")
 shape = SubResource("RectangleShape2D_3c7r8")
-shape_visible = false
 passby_press = true
 action = "ui_down"
-visibility_mode = 1
 
 [node name="Left" type="TouchScreenButton" parent="DPadContainer/DPad"]
-position = Vector2(0, 3)
-texture_normal = SubResource("AtlasTexture_prgrg")
-texture_pressed = SubResource("AtlasTexture_bydyu")
+position = Vector2(-6, -3.5)
+texture_normal = SubResource("AtlasTexture_7vxij")
+texture_pressed = SubResource("AtlasTexture_wsk7a")
 shape = SubResource("RectangleShape2D_n8ehp")
-shape_visible = false
 passby_press = true
 action = "ui_left"
-visibility_mode = 1
 
 [node name="ButtonsContainer" type="Control" parent="."]
 layout_mode = 1
@@ -174,11 +229,26 @@ anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
 
+[node name="SpecialActionButton" type="TouchScreenButton" parent="ButtonsContainer"]
+position = Vector2(-32, -90)
+scale = Vector2(3, 3)
+texture_normal = SubResource("AtlasTexture_jvrmq")
+texture_pressed = SubResource("AtlasTexture_47da4")
+shape = SubResource("CircleShape2D_fxxvg")
+action = "special_action"
+
+[node name="PunchButton" type="TouchScreenButton" parent="ButtonsContainer"]
+position = Vector2(-56, -62)
+scale = Vector2(3, 3)
+texture_normal = SubResource("AtlasTexture_3y03u")
+texture_pressed = SubResource("AtlasTexture_yhpc6")
+shape = SubResource("CircleShape2D_l77sg")
+action = "punch"
+
 [node name="JumpButton" type="TouchScreenButton" parent="ButtonsContainer"]
-texture_filter = 1
-position = Vector2(-112, -88)
-scale = Vector2(4, 4)
-texture_normal = SubResource("AtlasTexture_gujqa")
-texture_pressed = SubResource("AtlasTexture_iuhsl")
+position = Vector2(-32, -34)
+scale = Vector2(3, 3)
+texture_normal = SubResource("AtlasTexture_fwjpo")
+texture_pressed = SubResource("AtlasTexture_worch")
+shape = SubResource("CircleShape2D_fyoey")
 action = "jump"
-visibility_mode = 1

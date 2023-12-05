@@ -1,43 +1,45 @@
 [gd_scene load_steps=3 format=3 uid="uid://luo7evmlgkrg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pwpbi"]
-size = Vector2(192, 16)
+size = Vector2(96, 4)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5sjcg"]
-size = Vector2(16, 192)
+size = Vector2(4, 96)
 
-[node name="Map" type="Sprite2D"]
-centered = false
+[node name="Map" type="Node2D"]
+
+[node name="Barriers" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="Top" type="CollisionShape2D" parent="Barriers"]
+position = Vector2(48, -2)
+shape = SubResource("RectangleShape2D_pwpbi")
+
+[node name="Bottom" type="CollisionShape2D" parent="Barriers"]
+position = Vector2(48, 98)
+shape = SubResource("RectangleShape2D_pwpbi")
+
+[node name="Left" type="CollisionShape2D" parent="Barriers"]
+position = Vector2(-2, 48)
+shape = SubResource("RectangleShape2D_5sjcg")
+
+[node name="Right" type="CollisionShape2D" parent="Barriers"]
+position = Vector2(98, 48)
+shape = SubResource("RectangleShape2D_5sjcg")
+
+[node name="Background" type="AnimatedSprite2D" parent="."]
+autoplay = "default"
+offset = Vector2(48, 48)
+
+[node name="TileMap" type="TileMap" parent="."]
+cell_quadrant_size = 8
+format = 2
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 
-[node name="Player0" type="Node2D" parent="SpawnPoints"]
-position = Vector2(24, 168)
-
 [node name="Player1" type="Node2D" parent="SpawnPoints"]
-position = Vector2(168, 168)
+position = Vector2(88, 88)
 
 [node name="Player2" type="Node2D" parent="SpawnPoints"]
-position = Vector2(24, 40)
-
-[node name="Player3" type="Node2D" parent="SpawnPoints"]
-position = Vector2(168, 40)
-
-[node name="Walls" type="StaticBody2D" parent="."]
-collision_mask = 0
-
-[node name="Top" type="CollisionShape2D" parent="Walls"]
-position = Vector2(96, -8)
-shape = SubResource("RectangleShape2D_pwpbi")
-
-[node name="Bottom" type="CollisionShape2D" parent="Walls"]
-position = Vector2(96, 200)
-shape = SubResource("RectangleShape2D_pwpbi")
-
-[node name="Left" type="CollisionShape2D" parent="Walls"]
-position = Vector2(-8, 96)
-shape = SubResource("RectangleShape2D_5sjcg")
-
-[node name="Right" type="CollisionShape2D" parent="Walls"]
-position = Vector2(200, 96)
-shape = SubResource("RectangleShape2D_5sjcg")
+position = Vector2(8, 88)
