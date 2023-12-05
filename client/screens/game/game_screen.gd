@@ -42,8 +42,6 @@ func _start_game(peer_ids: PackedInt32Array):
 		var player: Node = preload("res://screens/game/player/player.tscn").instantiate()
 		var id: int = peer_ids[i]
 		player.set_multiplayer_authority(id)
-		player.name = str(id)
-		player.sprite_frames_path = "res://common/characters/spritesheets/%.png" % user_data["character"]
 		player.starts_looking_left = i % 2 == 0
 		get_node("Battle/Map/SpawnPoints/Player" + str(i + 1)).add_child(player)
 	

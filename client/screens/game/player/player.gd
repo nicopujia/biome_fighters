@@ -10,7 +10,6 @@ const CRAWL_SPEED: float = RUN_SPEED / 4
 const SLIDE_SPEED: float = RUN_SPEED * 1.5
 const GRAVITY_FORCE: float = 8
 
-@export_file("*.t?res") var sprite_frames_path: String
 @export var starts_looking_left: bool
 
 var _jumps_counter: int = 0
@@ -26,7 +25,6 @@ var _horizontal_direction: int = 0
 
 
 func _ready() -> void:
-	_sprite.texture = load(sprite_frames_path)
 	_sprite.flip_h = starts_looking_left
 
 
