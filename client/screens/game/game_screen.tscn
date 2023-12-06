@@ -116,7 +116,6 @@ alignment = 1
 layout_mode = 2
 text = "Player 1"
 vertical_alignment = 1
-autowrap_mode = 1
 
 [node name="Lifebar" type="ProgressBar" parent="PlayersData/Player1/VBoxContainer"]
 layout_mode = 2
@@ -143,7 +142,6 @@ layout_mode = 2
 text = "Player 2"
 horizontal_alignment = 2
 vertical_alignment = 1
-autowrap_mode = 1
 
 [node name="Lifebar" type="ProgressBar" parent="PlayersData/Player2/VBoxContainer"]
 layout_mode = 2
