@@ -1,13 +1,6 @@
 extends Node
 
 
-const REPLICATION_PROPERTIES: PackedStringArray = [
-	"Player:position",
-	"AnimationPlayer:current_animation",
-	"AnimationPlayer:current_animation_position",
-	"Sprite2D:flip_h",
-]
-
 var replication_config: SceneReplicationConfig = SceneReplicationConfig.new()
 var connected_peer_ids: PackedInt32Array = []
 var port: int
@@ -16,7 +9,8 @@ var port: int
 func _ready() -> void:
 	_get_argurments()
 	
-	for property in REPLICATION_PROPERTIES:
+	var replication_properties_file = FileAccess.open("replication_properties.json", FileAccess.READ)
+	for property in replication_properties_file.get_var():
 		replication_config.add_property(property)
 	
 	var multiplayer_peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
