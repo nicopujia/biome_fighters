@@ -1,6 +1,0 @@
-[
-  "Player:position",
-  "AnimationPlayer:current_animation",
-  "AnimationPlayer:current_animation_position",
-  "Sprite2D:flip_h"
-]

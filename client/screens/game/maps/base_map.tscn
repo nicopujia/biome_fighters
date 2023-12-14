@@ -33,13 +33,12 @@ autoplay = "default"
 offset = Vector2(48, 48)
 
 [node name="TileMap" type="TileMap" parent="."]
-cell_quadrant_size = 8
 format = 2
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="Player1" type="Node2D" parent="SpawnPoints"]
-position = Vector2(88, 88)
+position = Vector2(12, 84)
 
 [node name="Player2" type="Node2D" parent="SpawnPoints"]
-position = Vector2(8, 88)
+position = Vector2(84, 84)

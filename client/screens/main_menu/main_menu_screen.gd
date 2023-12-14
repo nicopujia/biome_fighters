@@ -5,30 +5,36 @@ extends Panel
 
 
 func _ready() -> void:
-	_load_user_data()
+	await _load_user_data()
 
 
 func _load_user_data() -> void:
-	LoadingScreen.set_state(true)
+	LoadingScreen.communicate()
+	
 	var response: Server.HTTPResponse = await Server.request("/me")
 	
 	if response.result == HTTPRequest.RESULT_TIMEOUT:
-		LoadingScreen.set_state(true, "Request took too long. Please, check your internet connection and try again", "Try again", _load_user_data)
-		
+		LoadingScreen.communicate(
+			"Request took too long. Please, check your internet connection and try again", 
+			"Try again", 
+			_load_user_data
+		)
+			
 	elif response.status_code == HTTPClient.RESPONSE_OK:
-		_show_user_data(response.body)
-		LoadingScreen.set_state(false)
+		Server.me = Server.User.new(response.body)
+		_show_user_data()
+		LoadingScreen.hide()
 		
 	elif response.status_code == HTTPClient.RESPONSE_UNAUTHORIZED:
 		get_tree().change_scene_to_file("res://screens/auth/auth_screen.tscn")
-		LoadingScreen.set_state(false)
+		LoadingScreen.hide()
 		
 	else:
-		LoadingScreen.set_state(true, "Unexpected error occurred with result %s, status code %s" % [response.result, response.status_code])
+		LoadingScreen.communicate("Unexpected error occurred with result %s, status code %s" % [response.result, response.status_code])
 
 
-func _show_user_data(data: Dictionary):
-	_username_label.text = data["username"]
+func _show_user_data():
+	_username_label.text = Server.me.username
 	# More data will be added in the future
 
 

@@ -5,7 +5,7 @@ extends CanvasLayer
 @onready var _button: Button = $Panel/Button
 
 
-func set_state(is_loading: bool, message: String = "Loading...", button_text: String = "", button_action: Callable = Callable()) -> void:
+func communicate(message: String = "Loading...", button_text: String = "", button_action: Callable = Callable()) -> void:
 	if button_text.is_empty():
 		_button.hide()
 	else:
@@ -16,4 +16,4 @@ func set_state(is_loading: bool, message: String = "Loading...", button_text: St
 		_button.pressed.connect(button_action)
 	
 	_label.text = message
-	visible = is_loading
+	show()

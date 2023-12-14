@@ -1,69 +1,62 @@
 extends Node
 
 
-var replication_config: SceneReplicationConfig = SceneReplicationConfig.new()
-var connected_peer_ids: PackedInt32Array = []
-var port: int
+const NEEDED_PLAYERS_AMOUNT: int = 2
+
+var players: Dictionary
 
 
 func _ready() -> void:
-	_get_argurments()
-	
-	var replication_properties_file = FileAccess.open("replication_properties.json", FileAccess.READ)
-	for property in replication_properties_file.get_var():
-		replication_config.add_property(property)
+	var cmdline_args: Dictionary = {}
+	for argument in OS.get_cmdline_args():
+		if argument.contains("="):
+			var key_value: PackedStringArray = argument.split("=")
+			cmdline_args[key_value[0].lstrip("--")] = key_value[1]
+		else:
+			cmdline_args[argument.lstrip("--")] = true
 	
 	var multiplayer_peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 	multiplayer_peer.set_bind_ip("0.0.0.0")
-	var error: Error = multiplayer_peer.create_server(port, 2)
-	multiplayer_peer.peer_connected.connect(_on_peer_connected)
-	multiplayer_peer.peer_disconnected.connect(_on_peer_disconnected)
+	var error: Error = multiplayer_peer.create_server(cmdline_args["port"], NEEDED_PLAYERS_AMOUNT)
+	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.multiplayer_peer = multiplayer_peer
-	printraw("Server created at port %s with error %s" % [port, error], "\n")
-
-
-func _get_argurments() -> void:
-	var arguments: Dictionary = {}
-	for argument in OS.get_cmdline_args():
-		if argument.find("=") > -1:
-			var key_value: PackedStringArray = argument.split("=")
-			arguments[key_value[0].lstrip("--")] = key_value[1]
-		else:
-			arguments[argument.lstrip("--")] = ""
-	
-	port = arguments.get("port", 50000)
-
-
-func _on_peer_connected(new_peer_id : int) -> void:
-	printraw("Peer %s is joining..." % new_peer_id, "\n")
-	await get_tree().create_timer(1).timeout
-	connected_peer_ids.append(new_peer_id)
-	printraw("Peer %s joined" % new_peer_id, "\n")
-	printraw("Currently connected peers: ", connected_peer_ids, "\n")
-	
-	if len(connected_peer_ids) == 2:
-		printraw("Both peers have joined. Starting the game...", "\n")
-		rpc("_start_game", connected_peer_ids)
+	printraw("\nMatch synchronizer server " + ("error " + str(error) if error else "successfully created"))
 
 
 func _on_peer_disconnected(id: int) -> void:
-	connected_peer_ids.remove_at(connected_peer_ids.find(id))
-	printraw("Peer %s disconnected" % id, "\n")
-	printraw("Currently connected peers: ", connected_peer_ids, "\n")
+	printraw("\nPeer %s has disconnected. Closing the server with exit code 1..." % id)
+	multiplayer.multiplayer_peer.close()
+	get_tree().quit(1)
+
+
+@rpc("reliable", "any_peer")
+func _register_player(player_number: int) -> void:
+	players[player_number] = multiplayer.get_remote_sender_id()
+	printraw("\nPlayer %s has been registered" % player_number)
+	
+	if len(players) == NEEDED_PLAYERS_AMOUNT:
+		printraw("\nBoth players have been registered. Starting the game...")
+		_start_game.rpc(players)
 
 
 @rpc("reliable")
-func _start_game(peer_ids: PackedInt32Array):
-	for i in len(peer_ids):
-		get_node("Battle/Map/SpawnPoints/Player" + str(i + 1)).add_child(_create_player(peer_ids[i]))
-
-
-func _create_player(id: int) -> Node:
-	var syncronizer: MultiplayerSynchronizer = MultiplayerSynchronizer.new()
-	syncronizer.replication_config = replication_config
-	syncronizer.set_multiplayer_authority(id)
+func _start_game(players: Dictionary) -> void:	
+	for player_number in players:
+		var player: Node = Node.new()
+		player.name = str(players[player_number])
+		player.add_child(MultiplayerSynchronizer.new())
+		get_node("MapContainer/Map/SpawnPoints/Player" + str(player_number)).add_child(player)
 	
-	var player: Node = Node.new()
-	player.name = str(id)
-	player.add_child(syncronizer)
-	return player
+	printraw("\nThe game has started")
+
+
+@rpc("reliable", "call_local", "any_peer")
+func _finish_game(_loser_player_number: int) -> void:
+	var player_number: int = players.find_key(multiplayer.get_remote_sender_id())
+	players.erase(player_number)
+	printraw("\nPlayer %s has finished." % [player_number])
+	
+	if not players:
+		printraw("\nAll players have finished. Closing the server...")
+		multiplayer.multiplayer_peer.close()
+		get_tree().quit()

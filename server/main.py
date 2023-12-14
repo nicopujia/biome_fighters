@@ -1,6 +1,5 @@
 import asyncio
 import logging
-import subprocess
 import uvicorn
 from dataclasses import dataclass
 from datetime import datetime, timedelta, UTC
@@ -8,7 +7,7 @@ from enum import Enum
 from os import environ
 from random import choice as random_choice
 from sys import platform
-from typing import Annotated
+from typing import Annotated, Self
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, status, Depends
@@ -27,31 +26,8 @@ DB_URI = environ["DB_URI"]
 JWT_SECRET_KEY = environ["JWT_SECRET_KEY"]
 
 
-class PortsManager:
-    used_ports: set[int] = set()
-    available_ports = list(range(49151, 65536))
-
-    @classmethod
-    def get_unused(cls) -> int:
-        port = random_choice(cls.available_ports)
-        cls.available_ports.remove(port)
-        cls.used_ports.add(port)
-        return port
-
-    @classmethod
-    def release(cls, port: int) -> None:
-        if port in cls.used_ports:
-            cls.used_ports.remove(port)
-            cls.available_ports.append(port)
-
-
-class WebSocketMessageCode(Enum):
-    OPPONENT_FOUND = 0
-
-
 class User(BaseModel):
     username: str
-    character: str = "cactus"
 
 
 class UserInDB(User):
@@ -60,12 +36,6 @@ class UserInDB(User):
 
 class Token(BaseModel):
     access_token: str
-
-
-@dataclass
-class Player:
-    websocket: WebSocket
-    user: User
 
 
 app = FastAPI()
@@ -146,28 +116,69 @@ async def read_user_me(user: Annotated[UserInDB, Depends(get_authenticated_user)
     return user
 
 
-@app.post("/websockets-token", status_code=status.HTTP_201_CREATED, tags=["auth"])
-async def create_websockets_token(user: Annotated[UserInDB, Depends(get_authenticated_user)]) -> Token:
-    return create_access_token(user.username, timedelta(seconds=5))
+class PortsManager:
+    used_ports: set[int] = set()
+    available_ports = list(range(49151, 65536))
+
+    @classmethod
+    def get_unused(cls) -> int:
+        port = random_choice(cls.available_ports)
+        cls.available_ports.remove(port)
+        cls.used_ports.add(port)
+        return port
+
+    @classmethod
+    def release(cls, port: int) -> None:
+        if port in cls.used_ports:
+            cls.used_ports.remove(port)
+            cls.available_ports.append(port)
+
+
+@dataclass
+class Player:
+    websocket: WebSocket
+    user: User
+    opponent: Self | None = None
+
+
+class MatchMessageCode(Enum):
+    OPPONENT_FOUND = 0
+    MATCH_FINISHED = 1
 
 
 matchmaking_pool: list[Player] = []
 
 
-async def run_match_syncronizer(port: int | None = None) -> None:
+@app.post("/match-token", status_code=status.HTTP_201_CREATED, tags=["auth"])
+async def create_match_token(user: Annotated[UserInDB, Depends(get_authenticated_user)]) -> Token:
+    return create_access_token(user.username, timedelta(seconds=5))
+
+
+async def run_match_syncronizer(port: int | None = None) -> int:
     if port == None:
         port = PortsManager.get_unused()
     
     process = await asyncio.create_subprocess_exec(
-        "match_syncronizer.exe" if platform == "win32" else "/code/match_syncronizer.x86_64",
+        "match_syncronizer/match_syncronizer.exe" if platform == "win32" else "/code/match_syncronizer.x86_64",
         "--headless",
         f"--port={port}",
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
     )
-    stdout, stderr = await process.communicate()
+    exit_code = await process.wait()
     PortsManager.release(port)
-    logging.debug(f"Match syncronizer process finished with stdout: {stdout.decode()} and stderr: {stderr.decode()}")
+    print("\n")
+    logging.debug(f"Match syncronizer process finished with exit code {exit_code}")
+    return exit_code
+
+
+async def send_match_data(port: int, recipient: Player, player_number: int) -> None:
+    if not recipient.opponent:
+        return
+
+    await recipient.websocket.send_json({
+        "port": port, 
+        "your_player_number": player_number,
+        "opponent_user": recipient.opponent.user.model_dump(exclude={"hashed_password": True}), 
+    })
 
 
 @app.websocket("/match")
@@ -182,22 +193,14 @@ async def match(websocket: WebSocket, access_token: str) -> None:
     logging.debug(f"{user.username} joined the matchmaking.")
     
     if len(matchmaking_pool) > 0:
-        match_players = matchmaking_pool.pop(0), player
-        match_players_user = list(map(lambda player: player.user.model_dump(exclude={"hashed_password": True}), match_players))
+        other = matchmaking_pool.pop(0)
+        other.opponent = player
+        player.opponent = other
         port = PortsManager.get_unused()
         asyncio.create_task(run_match_syncronizer(port))
-        
-        logging.info(f"Started new match: {player.user.username} vs {match_players[0].user.username}")
-        
-        for match_player in match_players:
-            await match_player.websocket.send_json({
-                "code": WebSocketMessageCode.OPPONENT_FOUND.value, 
-                "body": {
-                    "port": port,
-                    "users": match_players_user,
-                },
-            })
-
+        await send_match_data(port, other, 1)
+        await send_match_data(port, player, 2)
+        logging.info(f"New match started: {user.username} vs {other.user.username}")
     else:
         matchmaking_pool.append(player)
 
@@ -207,6 +210,12 @@ async def match(websocket: WebSocket, access_token: str) -> None:
             await websocket.receive_text()
     except WebSocketDisconnect as disconnection:
         logging.debug(f"{user.username} disconnected from match websocket with code {disconnection.code}, reason {disconnection.reason}")
+        
+        # If the player disconnects with an opponent (i. e. in the middle of the match), tell
+        # the opponent that he/she has won
+        if player.opponent and disconnection.code == status.WS_1001_GOING_AWAY:
+            await player.opponent.websocket.send_bytes(bytes(1))
+        
         if player in matchmaking_pool:
             matchmaking_pool.remove(player)
 

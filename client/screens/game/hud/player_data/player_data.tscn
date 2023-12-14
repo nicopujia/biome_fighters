@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4i26xqk0vibt"]
+
+[ext_resource type="Script" path="res://screens/game/hud/player_data/player_data.gd" id="1_kgpwx"]
+[ext_resource type="Texture2D" uid="uid://18skdoedk0xj" path="res://common/characters/idle_poses/cactus.tres" id="2_ni4w0"]
+
+[node name="PlayerData" type="HBoxContainer"]
+offset_right = 89.0
+offset_bottom = 19.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+script = ExtResource("1_kgpwx")
+
+[node name="CharacterIconTextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_ni4w0")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="UsernameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Player's username"
+vertical_alignment = 1
+
+[node name="HealthBar" type="ProgressBar" parent="VBoxContainer"]
+layout_mode = 2
+value = 50.0
