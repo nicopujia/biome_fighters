@@ -7,7 +7,6 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Install match_syncronizer
 COPY ./match_syncronizer/match_syncronizer.x86_64 /code/match_syncronizer.x86_64
-COPY ./match_syncronizer/replication_properties.json /code/replication_properties.json
 RUN chmod +x /code/match_syncronizer.x86_64
 
 # Run server
