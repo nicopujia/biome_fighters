@@ -3,11 +3,11 @@ extends Panel
 
 enum WebSocketsStatusCode { WS_GOING_AWAY = 1001 }
 
+@export var map_container: Panel
+
 var _my_player_number: int
 var _opponent_user: Server.User
 var _websocket: WebSocketPeer = WebSocketPeer.new()
-
-@onready var _map_container: Panel = $MapContainer
 
 
 func _ready() -> void:
@@ -89,7 +89,7 @@ func _start_game(players: Dictionary) -> void:
 		player_data_node.health = Player.INITIAL_HEALTH
 		player_data_node.username = Server.me.username if player_number == _my_player_number else _opponent_user["username"]
 	
-	_map_container.add_child(map)
+	map_container.add_child(map)
 	
 	LoadingScreen.hide()
 

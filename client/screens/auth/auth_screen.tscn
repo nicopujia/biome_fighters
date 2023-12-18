@@ -2,13 +2,19 @@
 
 [ext_resource type="Script" path="res://screens/auth/auth_screen.gd" id="1_pyu0p"]
 
-[node name="AuthScreen" type="Panel"]
+[node name="AuthScreen" type="Panel" node_paths=PackedStringArray("username_input", "password_input", "repeated_password_input", "info_label", "buttons", "http")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pyu0p")
+username_input = NodePath("Content/UsernameInput")
+password_input = NodePath("Content/PasswordInput")
+repeated_password_input = NodePath("Content/RepeatPasswordInput")
+info_label = NodePath("Content/InfoLabel")
+buttons = NodePath("Content/Buttons")
+http = NodePath("HTTPRequest")
 
 [node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 1

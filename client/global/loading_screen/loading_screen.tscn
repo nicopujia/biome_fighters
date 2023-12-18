@@ -5,10 +5,12 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_la6al"]
 bg_color = Color(0.141176, 0.141176, 0.141176, 1)
 
-[node name="LoadingScreen" type="CanvasLayer"]
+[node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("label", "button")]
 layer = 2
 visible = false
 script = ExtResource("1_2sndq")
+label = NodePath("Panel/Label")
+button = NodePath("Panel/Button")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 15

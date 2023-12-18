@@ -889,13 +889,23 @@ properties/5/spawn = false
 properties/5/sync = true
 properties/5/watch = false
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "hitbox_collider", "crouched_collider", "stood_up_collider", "anim_player", "synchronizer", "coyote_jump_timer", "fall_from_half_platform_timer", "jump_buffering_timer", "slide_timer")]
 collision_mask = 31
 slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
 platform_floor_layers = 4294967294
 script = ExtResource("1_sh0yk")
+sprite = NodePath("Sprite")
+hitbox_collider = NodePath("Sprite/HitBoxArea/Collider")
+crouched_collider = NodePath("CrouchedCollider")
+stood_up_collider = NodePath("StoodUpCollider")
+anim_player = NodePath("AnimationPlayer")
+synchronizer = NodePath("MultiplayerSynchronizer")
+coyote_jump_timer = NodePath("Timers/CoyoteJump")
+fall_from_half_platform_timer = NodePath("Timers/FallFromHalfPlatform")
+jump_buffering_timer = NodePath("Timers/JumpBuffering")
+slide_timer = NodePath("Timers/Slide")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1

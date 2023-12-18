@@ -77,13 +77,14 @@ region = Rect2(4, 9, 8, 9)
 [sub_resource type="CircleShape2D" id="CircleShape2D_fyoey"]
 radius = 6.0
 
-[node name="GameScreen" type="Panel"]
+[node name="GameScreen" type="Panel" node_paths=PackedStringArray("map_container")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nspun")
+map_container = NodePath("MapContainer")
 
 [node name="PlayersData" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -100,8 +101,6 @@ alignment = 1
 [node name="Player1" parent="PlayersData" instance=ExtResource("2_pky6v")]
 layout_mode = 2
 username = "Player 1"
-max_health = 100
-health = 50
 
 [node name="VersusLabel" type="Label" parent="PlayersData"]
 layout_mode = 2
@@ -112,8 +111,6 @@ vertical_alignment = 1
 layout_mode = 2
 flip_h = true
 username = "Player 2"
-max_health = 100
-health = 50
 
 [node name="MapContainer" type="Panel" parent="."]
 layout_mode = 1
