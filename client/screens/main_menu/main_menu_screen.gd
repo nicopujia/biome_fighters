@@ -1,7 +1,7 @@
 extends Panel
 
 
-@onready var _username_label: Label = $Content/UsernameLabel
+@export var username_label: Label
 
 
 func _ready() -> void:
@@ -34,7 +34,7 @@ func _load_user_data() -> void:
 
 
 func _show_user_data():
-	_username_label.text = Server.me.username
+	username_label.text = Server.me.username
 	# More data will be added in the future
 
 
