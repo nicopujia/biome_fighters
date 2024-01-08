@@ -1,6 +1,5 @@
 import asyncio
 import logging
-import uvicorn
 from dataclasses import dataclass
 from datetime import datetime, timedelta, UTC
 from enum import Enum
@@ -9,14 +8,15 @@ from random import choice as random_choice
 from sys import platform
 from typing import Annotated, Self
 
+import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, status, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt
 from jose.exceptions import JWTError, JWTClaimsError, ExpiredSignatureError
+from passlib.context import CryptContext
 from pymongo.mongo_client import MongoClient
 from pydantic import BaseModel
-from passlib.context import CryptContext
 
 
 load_dotenv(".env", override=True)
@@ -232,6 +232,6 @@ if __name__ == '__main__' and platform == "win32":
             loop = ProactorEventLoop()
             asyncio.set_event_loop(loop)
             asyncio.run(self.serve(sockets=sockets))
-            
+    
     server = ProactorServer(uvicorn.Config(app))
     server.run()
