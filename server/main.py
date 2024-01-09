@@ -143,7 +143,7 @@ class Player:
 
 class MatchMessageCode(Enum):
     OPPONENT_FOUND = 0
-    MATCH_FINISHED = 1
+    OPPONENT_LEFT = 1
 
 
 matchmaking_pool: list[Player] = []
@@ -175,6 +175,7 @@ async def send_match_data(port: int, recipient: Player, player_number: int) -> N
         return
 
     await recipient.websocket.send_json({
+        "code": MatchMessageCode.OPPONENT_FOUND.value,
         "port": port, 
         "your_player_number": player_number,
         "opponent_user": recipient.opponent.user.model_dump(exclude={"hashed_password": True}), 
@@ -213,8 +214,9 @@ async def match(websocket: WebSocket, access_token: str) -> None:
         
         # If the player disconnects with an opponent (i. e. in the middle of the match), tell
         # the opponent that he/she has won
-        if player.opponent and disconnection.code == status.WS_1001_GOING_AWAY:
-            await player.opponent.websocket.send_bytes(bytes(1))
+        if player.opponent and disconnection.code in (status.WS_1001_GOING_AWAY, status.WS_1006_ABNORMAL_CLOSURE):
+            player.opponent.opponent = None
+            await player.opponent.websocket.send_json({"code": MatchMessageCode.OPPONENT_LEFT.value})
         
         if player in matchmaking_pool:
             matchmaking_pool.remove(player)

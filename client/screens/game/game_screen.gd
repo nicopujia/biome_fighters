@@ -2,6 +2,7 @@ extends Panel
 
 
 enum WebSocketsStatusCode { WS_GOING_AWAY = 1001 }
+enum MatchMessageCode { OPPONENT_FOUND, OPPONENT_LEFT }
 
 @export var map_container: Panel
 
@@ -14,7 +15,6 @@ func _ready() -> void:
 	multiplayer.multiplayer_peer = null
 	
 	LoadingScreen.communicate("Joining matchmaking...")
-	await get_tree().create_timer(1).timeout
 	
 	var token_response: Server.HTTPResponse = await Server.request("/match-token", {}, HTTPClient.METHOD_POST)
 	
@@ -27,7 +27,7 @@ func _ready() -> void:
 		return
 	
 	_websocket.connect_to_url(Server.build_url("ws", "/match", {"access_token": token_response.body["access_token"]}))
-
+	
 	LoadingScreen.communicate("Waiting for an opponent...", "Cancel", _on_cancel_matchmaking_button_pressed)
 
 
@@ -42,23 +42,24 @@ func _process(_delta: float) -> void:
 	if not packet:
 		return
 	
-	if multiplayer.has_multiplayer_peer():
-		LoadingScreen.communicate("Your opponent has disconnected. You win", "Accept", _on_accept_button_pressed)
-		_websocket.close()
-		return
+	var message: Dictionary = JSON.parse_string(packet.get_string_from_utf8())
 	
-	LoadingScreen.communicate("Opponent found!")
-	await get_tree().create_timer(3).timeout # Wait for the match syncronizer to start
-	LoadingScreen.communicate("Loading combat...")
-	
-	var match_info: Dictionary = JSON.parse_string(packet.get_string_from_utf8())
-	_my_player_number = match_info["your_player_number"]
-	_opponent_user = Server.User.new(match_info["opponent_user"])
-	
-	var multiplayer_peer = ENetMultiplayerPeer.new()
-	multiplayer_peer.create_client(Server.ADDRESS.get_slice(":", 0), match_info["port"])
-	multiplayer.connected_to_server.connect(func(): _register_player.rpc(_my_player_number))
-	multiplayer.multiplayer_peer = multiplayer_peer
+	match int(message["code"]):
+		MatchMessageCode.OPPONENT_LEFT:
+			LoadingScreen.communicate("Your opponent has disconnected. You win", "Accept", _on_accept_button_pressed)
+			_websocket.close()
+		MatchMessageCode.OPPONENT_FOUND:
+			LoadingScreen.communicate("Opponent found!")
+			
+			_my_player_number = message["your_player_number"]
+			_opponent_user = Server.User.new(message["opponent_user"])
+			
+			var multiplayer_peer = ENetMultiplayerPeer.new()
+			multiplayer_peer.create_client(Server.ADDRESS.get_slice(":", 0), message["port"])
+			multiplayer.connected_to_server.connect(func(): _register_player.rpc(_my_player_number))
+			multiplayer.multiplayer_peer = multiplayer_peer
+			
+			LoadingScreen.communicate("Loading combat...")
 
 
 func _notification(what: int) -> void:
@@ -116,7 +117,6 @@ func _on_player_health_changed(value: float, player_number: int) -> void:
 
 func _on_cancel_matchmaking_button_pressed() -> void:
 	LoadingScreen.communicate("Cancelling...")
-	await get_tree().create_timer(5).timeout
 	if multiplayer.has_multiplayer_peer():
 		return
 	_websocket.close(WebSocketsStatusCode.WS_GOING_AWAY, "the matchmaking has been cancelled")
