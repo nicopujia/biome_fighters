@@ -41,7 +41,7 @@ class Token(BaseModel):
 app = FastAPI()
 database = MongoClient(DB_URI).database
 crypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-logging.basicConfig(level=logging.DEBUG, format="%(levelname)s:     %(message)s")
+logging.basicConfig(format="%(levelname)s:     %(message)s")
 
 
 def get_user_with_username(username: str) -> UserInDB | None:
@@ -166,7 +166,7 @@ async def run_match_syncronizer(port: int | None = None) -> int:
     exit_code = await process.wait()
     PortsManager.release(port)
     print("\n")
-    logging.debug(f"Match syncronizer process finished with exit code {exit_code}")
+    logging.info(f"Match syncronizer process finished with exit code {exit_code}")
     return exit_code
 
 
@@ -191,7 +191,7 @@ async def match(websocket: WebSocket, access_token: str) -> None:
     
     player = Player(websocket, user)
     
-    logging.debug(f"{user.username} joined the matchmaking.")
+    logging.info(f"{user.username} joined the matchmaking.")
     
     if len(matchmaking_pool) > 0:
         other = matchmaking_pool.pop(0)
@@ -210,7 +210,7 @@ async def match(websocket: WebSocket, access_token: str) -> None:
         while True:
             await websocket.receive_text()
     except WebSocketDisconnect as disconnection:
-        logging.debug(f"{user.username} disconnected from match websocket with code {disconnection.code}, reason {disconnection.reason}")
+        logging.info(f"{user.username} disconnected from match websocket with code {disconnection.code}, reason {disconnection.reason}")
         
         # If the player disconnects with an opponent (i. e. in the middle of the match), tell
         # the opponent that he/she has won
