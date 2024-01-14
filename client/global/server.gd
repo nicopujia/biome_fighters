@@ -2,8 +2,8 @@ extends Node
 
 
 const IS_LOCAL: bool = true
-const SECURE_S: String = "s" if not IS_LOCAL else ""
-const ADDRESS: String = "127.0.0.1:8000" if IS_LOCAL else "biomeduels-kfufjlqk.b4a.run"
+const HOST: String = "127.0.0.1" if IS_LOCAL else "34.41.27.64"
+const PORT: int = 55555
 
 var me: User
 
@@ -26,7 +26,9 @@ func request(endpoint: String, args: Dictionary = {}, method: HTTPClient.Method 
 func build_url(protocol: String = "http", endpoint: String = "/", args: Dictionary = {}) -> String:
 	assert(protocol == "http" or protocol == "ws")
 	var args_as_string: String = HTTPClient.new().query_string_from_dict(args)
-	return protocol + SECURE_S + "://" + ADDRESS + endpoint + "?" + args_as_string
+	if not IS_LOCAL:
+		protocol += "s"
+	return protocol + "://" + HOST + ':' + str(PORT) + endpoint + "?" + args_as_string
 
 
 class HTTPResponse:

@@ -118,7 +118,7 @@ async def read_user_me(user: Annotated[UserInDB, Depends(get_authenticated_user)
 
 class PortsManager:
     used_ports: set[int] = set()
-    available_ports = list(range(49151, 65536))
+    available_ports = list(range(1024, 49151))
 
     @classmethod
     def get_unused(cls) -> int:
@@ -221,18 +221,24 @@ async def match(websocket: WebSocket, access_token: str) -> None:
             matchmaking_pool.remove(player)
 
 
-if __name__ == '__main__' and platform == "win32":
+if __name__ == "__main__":
     # There are two event loops: Selector and Proactor. Using SelectorEventLoop (the
     # default) on Windows raises "NotImplementedError" when trying to run a subprocess.
     # Running the server this way because solves the error
     
-    from asyncio.windows_events import ProactorEventLoop
+    config = uvicorn.Config(app, host="0.0.0.0", port=55555)
     
-    class ProactorServer(uvicorn.Server):
-        def run(self, sockets=None):
-            loop = ProactorEventLoop()
-            asyncio.set_event_loop(loop)
-            asyncio.run(self.serve(sockets=sockets))
+    if platform == "win32":
+        from asyncio.windows_events import ProactorEventLoop
+        
+        class ProactorServer(uvicorn.Server):
+            def run(self, sockets=None):
+                loop = ProactorEventLoop()
+                asyncio.set_event_loop(loop)
+                asyncio.run(self.serve(sockets=sockets))
+        
+        server = ProactorServer(config)
+    else:
+        server = uvicorn.Server(config)
     
-    server = ProactorServer(uvicorn.Config(app))
     server.run()

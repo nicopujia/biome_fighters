@@ -55,7 +55,7 @@ func _process(_delta: float) -> void:
 			_opponent_user = Server.User.new(message["opponent_user"])
 			
 			var multiplayer_peer = ENetMultiplayerPeer.new()
-			multiplayer_peer.create_client(Server.ADDRESS.get_slice(":", 0), message["port"])
+			multiplayer_peer.create_client(Server.HOST, message["port"])
 			multiplayer.connected_to_server.connect(func(): _register_player.rpc(_my_player_number))
 			multiplayer.multiplayer_peer = multiplayer_peer
 			
