@@ -159,9 +159,8 @@ async def run_match_syncronizer(port: int | None = None) -> int:
         port = PortsManager.get_unused()
     
     process = await asyncio.create_subprocess_exec(
-        "match_syncronizer/match_syncronizer.exe" if platform == "win32" else "/code/match_syncronizer.x86_64",
-        "--headless",
-        f"--port={port}",
+        "godot", "--headless", f"--port={port}",
+        cwd="./match_synchronizer",
     )
     exit_code = await process.wait()
     PortsManager.release(port)

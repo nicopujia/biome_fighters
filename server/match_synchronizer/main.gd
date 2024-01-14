@@ -17,7 +17,7 @@ func _ready() -> void:
 	
 	var multiplayer_peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 	multiplayer_peer.set_bind_ip("0.0.0.0")
-	var error: Error = multiplayer_peer.create_server(cmdline_args["port"], NEEDED_PLAYERS_AMOUNT)
+	var error: Error = multiplayer_peer.create_server(int(cmdline_args["port"]), NEEDED_PLAYERS_AMOUNT)
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.multiplayer_peer = multiplayer_peer
 	printraw("\nMatch synchronizer server " + ("error " + str(error) if error else "successfully created"))
