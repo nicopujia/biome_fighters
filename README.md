@@ -91,6 +91,7 @@ touch .env
 - Coin system to bet on the matches and to buy cosmetics and improvements.
 - 2v2 and 1v1v1v1 fights.
 - Option to play against a specific player
+- A time limit for the matches until a sudden death (like in Worms) appears
 
 ### Known bugs
 - Sometimes players go through collisions when fighting
