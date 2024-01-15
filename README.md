@@ -27,7 +27,7 @@ If you want to run the game server locally for development, see below on the [co
 ## Contributions
 Contributions are not being actively sought at the moment, as the game is not expected to undergo significant development. 
 
-However, if you are interested in the project, feel free to continue it by your own. Below I leave some resources to help you in case you want to expand it.
+However, if you are interested in the project, feel free to continue it by your own. Below I leave a guide to run the server locally in case you want to develop it.
 
 *(And don't forget to tell me if you do, as I would be very curious to see how the game evolves!)*
 
@@ -70,32 +70,6 @@ touch .env
 5. Change the flag `IS_LOCAL` to true in `client/global/server.gd`.
 
 6. Run 2 (or more) instances of the client. You can achieve this by setting `Debug -> Run multiple instances -> Run 2 instances` in the Godot editor and then executing the project.
-
-
-### Ideas for the game
-- Add something visual to the characters to differentiate who is who.
-- Add styles to the theme (`client/common/theme.tres`)
-
-- Add more biomes, characters, and more maps for each biome:
-
-| Biome      | Character  | Special feature |
-|------------|------------|-----------------|
-| ~~Desert~~ | ~~Cactus~~ | Just basic platforms (static & moving platforms, ladders, etc) because is the first biome |
-| Valley     | Potato     | A hook hanging from the ceiling |
-| Mountains  | Snowball   | Players can fall to the void and a platform like the one in the first boss fight in Super Mario World |
-| Cave       | Stone      | Stalactites falling from the ceiling |
-| Temple     | Totem      | Dispensers shooting arrows and other traps |
-| Hell       | Flame      | Lava? |
-
-- Add objects that players can grab, just like in Spelunky.
-- Coin system to bet on the matches and to buy cosmetics and improvements.
-- 2v2 and 1v1v1v1 fights.
-- Option to play against a specific player
-- A time limit for the matches until a sudden death (like in Worms) appears
-
-### Known bugs
-- Sometimes players go through collisions when fighting
-- Characters in the `PlayerData` node look different
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
