@@ -20,14 +20,14 @@ Please note that the current version is prototype, so a lot of [initial ideas fo
 ![End of match](screenshots/end_of_match.jpg)
 
 ## Getting Started
-To try out the game, call a friend or anyone else to play with and both of you download the client executable (for either Windows or Android) from the [releases](). After that, just hit the play button and try to beat each other!
+To try out the game, call a friend or anyone else to play with and both of you download the client executable (for either Windows or Android) from the [releases](https://github.com/nicopujia/biome_fighters/releases/). After that, just hit the play button and try to beat each other!
 
-If you want to run the game server locally for development, see below on the [contributions](#how-to-run-locally) section 
+If you want to run the game server locally for development, see below on the [contributions](#how-to-run-locally) section.
 
 ## Contributions
 Contributions are not being actively sought at the moment, as the game is not expected to undergo significant development. 
 
-However, if you are interested in the project, feel free to continue it by your own. Below I leave a guide to run the server locally in case you want to develop it.
+However, if you are interested in the project, feel free to continue it by your own. Below I leave a guide to run the server locally in case you want to develop it. Besides, you can check out the [issues](https://github.com/nicopujia/biome_fighters/issues/) section to get some ideas to start with.
 
 *(And don't forget to tell me if you do, as I would be very curious to see how the game evolves!)*
 
