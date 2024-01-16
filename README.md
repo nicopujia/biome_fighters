@@ -1,7 +1,7 @@
 # Biome Fighters
 
 ## Overview
-Biome Fighters is a 1v1 online multiplayer platform fighter game with a retro aesthetic, where there are more than just two platforms and *every corner is an opportunity for the victory*. It is inspired in [Spelunky's deatchmath](), but taken to a competitive online multiplayer enviroment.
+Biome Fighters is a 1v1 online multiplayer platform fighter game with a retro aesthetic, where there are more than just two platforms and *every corner is an opportunity for the victory*. It is inspired in [Spelunky's deatchmath](https://spelunky.fandom.com/wiki/Deathmatch_(HD)), but taken to a competitive online multiplayer enviroment.
 
 Please note that the current version is prototype, so a lot of [initial ideas for the game](#ideas-for-the-game) are not implemented. It only includes a minimal playable experience in a map with some platforms, with one biome (the desert) and one character (the cactus).
 
@@ -20,14 +20,14 @@ Please note that the current version is prototype, so a lot of [initial ideas fo
 ![End of match](screenshots/end_of_match.jpg)
 
 ## Getting Started
-To try out the game, call a friend or anyone else to play with and both of you download the client executable (for either Windows or Android) from the [releases](). After that, just hit the play button and try to beat each other!
+To try out the game, call a friend or anyone else to play with and both of you download the client executable (for either Windows or Android) from the [releases](https://github.com/nicopujia/biome_fighters/releases/). After that, just hit the play button and try to beat each other!
 
-If you want to run the game server locally for development, see below on the [contributions](#how-to-run-locally) section 
+If you want to run the game server locally for development, see below on the [contributions](#how-to-run-locally) section.
 
 ## Contributions
 Contributions are not being actively sought at the moment, as the game is not expected to undergo significant development. 
 
-However, if you are interested in the project, feel free to continue it by your own. Below I leave some resources to help you in case you want to expand it.
+However, if you are interested in the project, feel free to continue it by your own. Below I leave a guide to run the server locally in case you want to develop it. Besides, you can check out the [issues](https://github.com/nicopujia/biome_fighters/issues/) section to get some ideas to start with.
 
 *(And don't forget to tell me if you do, as I would be very curious to see how the game evolves!)*
 
@@ -70,31 +70,6 @@ touch .env
 5. Change the flag `IS_LOCAL` to true in `client/global/server.gd`.
 
 6. Run 2 (or more) instances of the client. You can achieve this by setting `Debug -> Run multiple instances -> Run 2 instances` in the Godot editor and then executing the project.
-
-
-### Ideas for the game
-- Add something visual to the characters to differentiate who is who.
-- Add styles to the theme (`client/common/theme.tres`)
-
-- Add more biomes, characters, and more maps for each biome:
-
-| Biome      | Character  | Special feature |
-|------------|------------|-----------------|
-| ~~Desert~~ | ~~Cactus~~ | Just basic platforms (static & moving platforms, ladders, etc) because is the first biome |
-| Valley     | Potato     | A hook hanging from the ceiling |
-| Mountains  | Snowball   | Players can fall to the void and a platform like the one in the first boss fight in Super Mario World |
-| Cave       | Stone      | Stalactites falling from the ceiling |
-| Temple     | Totem      | Dispensers shooting arrows and other traps |
-| Hell       | Flame      | Lava? |
-
-- Add objects that players can grab, just like in Spelunky.
-- Coin system to bet on the matches and to buy cosmetics and improvements.
-- 2v2 and 1v1v1v1 fights.
-- Option to play against a specific player
-
-### Known bugs
-- Sometimes players go through collisions when fighting
-- Characters in the `PlayerData` node look different
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
