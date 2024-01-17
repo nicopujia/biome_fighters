@@ -1,7 +1,7 @@
 # Biome Fighters
 
 ## Overview
-Biome Fighters is a 1v1 online multiplayer platform fighter game with a retro aesthetic, where there are more than just two platforms and *every corner is an opportunity for the victory*. It is inspired in [Spelunky's deatchmath](https://spelunky.fandom.com/wiki/Deathmatch_(HD)), but taken to a competitive online multiplayer enviroment.
+Biome Fighters is a 1v1 online multiplayer platform fighter game with a retro aesthetic, where there are more than just two platforms and *every corner is an opportunity for the victory*. It is inspired in [Spelunky's deatchmath](https://spelunky.fandom.com/wiki/Deathmatch_(HD)), but taken to a competitive online multiplayer environment.
 
 Please note that the current version is prototype, so a lot of [initial ideas for the game](#ideas-for-the-game) are not implemented. It only includes a minimal playable experience in a map with some platforms, with one biome (the desert) and one character (the cactus).
 
@@ -45,21 +45,21 @@ git clone https://github.com/nicopujia/biome_fighters.git
 # Move to the server folder
 cd biome_fighters/server
 
-# Create a Python enviroment
+# Create a Python environment
 python -m venv env
 
-# Activate the enviroment
-env\Scripts\activate # (Windows)
-./env/bin/activate # (Linux / MacOS)
+# Activate the environment
+source env/bin/activate # (Linux / MacOS)
+source env/scripts/activate # (Linux / MacOS)
 
 # Install the dependencies
 pip install -r requirements.txt
 
-# Create the enviroment variables file
+# Create the environment variables file
 touch .env
 ```
 
-3. Setup enviroment variables in `server/.env`:
+3. Setup environment variables in `server/.env`:
 
     - `JWT_SECRET_KEY=<The key you generate>`: Generate a JWT secret key with the `HS256` algorithm (you can do it with [this website](https://jwt-keys.21no.de/)). 
     
