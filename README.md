@@ -3,14 +3,7 @@
 ## Overview
 Biome Fighters is a 1v1 online multiplayer platform fighter game with a retro aesthetic, where there are more than just two platforms and *every corner is an opportunity for the victory*. It is inspired in [Spelunky's deatchmath](https://spelunky.fandom.com/wiki/Deathmatch_(HD)), but taken to a competitive online multiplayer environment.
 
-Please note that the current version is prototype, so a lot of [initial ideas for the game](#ideas-for-the-game) are not implemented. It only includes a minimal playable experience in a map with some platforms, with one biome (the desert) and one character (the cactus).
-
-### Tech stack
-- **Aseprite** for the graphics.
-- **Godot Engine** for the client and for the match synchronization.
-- **Python** and **FastAPI** for the backend.
-- **MongoDB Atlas** for the database.
-- **GCP**'s Compute Engine for the deployment (*running live right now!*).
+Please note that the current version is prototype, so a lot of [initial ideas for the game](https://github.com/nicopujia/biome_fighters/labels/Enhancement) are not implemented. It only includes a minimal playable experience in a map with some platforms, with one biome (the desert) and one character (the cactus).
 
 ### Screenshots
 ![User authentication](screenshots/user_authentication.jpg)
@@ -18,6 +11,20 @@ Please note that the current version is prototype, so a lot of [initial ideas fo
 ![Gameplay 1](screenshots/gameplay_1.jpg)
 ![Gameplay 2](screenshots/gameplay_2.jpg)
 ![End of match](screenshots/end_of_match.jpg)
+
+### Features
+- User authentication with JWTs
+- Basic matchmaking
+- Character movement and animations
+- Punches, life points and end of fights
+- Deployed on a server
+
+### Tech stack
+- **Aseprite** for the graphics.
+- **Godot Engine** for the client and for the match synchronization.
+- **Python** and **FastAPI** for the backend.
+- **MongoDB Atlas** for the database.
+- **GCP**'s Compute Engine for the deployment (*running live right now!*).
 
 ## Getting Started
 To try out the game, call a friend or anyone else to play with and both of you download the client executable (for either Windows or Android) from the [releases](https://github.com/nicopujia/biome_fighters/releases/). After that, just hit the play button and try to beat each other!
