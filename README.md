@@ -57,7 +57,7 @@ python -m venv env
 
 # Activate the environment
 source env/bin/activate # (Linux / MacOS)
-source env/scripts/activate # (Linux / MacOS)
+source env/scripts/activate # (Windows)
 
 # Install the dependencies
 pip install -r requirements.txt
