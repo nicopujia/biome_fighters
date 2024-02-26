@@ -56,7 +56,7 @@ func _finish_game(_loser_player_number: int) -> void:
 	players.erase(player_number)
 	printraw("\nPlayer %s has finished." % [player_number])
 	
-	if not players:
+	if players.is_empty():
 		printraw("\nAll players have finished. Closing the server...")
 		multiplayer.multiplayer_peer.close()
 		get_tree().quit()

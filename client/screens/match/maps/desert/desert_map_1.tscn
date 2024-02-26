@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://xnu1wgo6syjj"]
 
-[ext_resource type="PackedScene" uid="uid://luo7evmlgkrg" path="res://screens/game/maps/base_map.tscn" id="1_6byi3"]
-[ext_resource type="Texture2D" uid="uid://xaiffh7na7yr" path="res://screens/game/maps/desert/background.png" id="2_lmdoq"]
-[ext_resource type="TileSet" uid="uid://uj8d4p7c8s6h" path="res://screens/game/maps/desert/tileset.tres" id="3_1xcq5"]
+[ext_resource type="PackedScene" uid="uid://luo7evmlgkrg" path="res://screens/match/maps/base_map.tscn" id="1_6byi3"]
+[ext_resource type="Texture2D" uid="uid://xaiffh7na7yr" path="res://screens/match/maps/desert/background.png" id="2_lmdoq"]
+[ext_resource type="TileSet" uid="uid://uj8d4p7c8s6h" path="res://screens/match/maps/desert/tileset.tres" id="3_1xcq5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qf30y"]
 atlas = ExtResource("2_lmdoq")

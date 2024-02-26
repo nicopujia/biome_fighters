@@ -1,7 +1,7 @@
 extends Node
 
 
-const IS_LOCAL: bool = false
+const IS_LOCAL: bool = true
 const HOST: String = "127.0.0.1" if IS_LOCAL else "34.41.27.64"
 const PORT: int = 55555
 

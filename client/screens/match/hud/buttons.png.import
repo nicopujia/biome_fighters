@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crpwa1ndrv6bg"
-path="res://.godot/imported/tileset.png-cfedb446764950c498e4789caa5ceb44.ctex"
+uid="uid://bwgonxgvyxh2q"
+path="res://.godot/imported/buttons.png-0e6b5c3cb1839c939481637126e0a93c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screens/game/maps/desert/tileset.png"
-dest_files=["res://.godot/imported/tileset.png-cfedb446764950c498e4789caa5ceb44.ctex"]
+source_file="res://screens/match/hud/buttons.png"
+dest_files=["res://.godot/imported/buttons.png-0e6b5c3cb1839c939481637126e0a93c.ctex"]
 
 [params]
 

@@ -44,4 +44,4 @@ func _on_logout_button_pressed() -> void:
 
 
 func _on_play_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://screens/game/game_screen.tscn")
+	get_tree().change_scene_to_file("res://screens/match/match_screen.tscn")

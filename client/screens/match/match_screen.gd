@@ -74,11 +74,11 @@ func _register_player(_player_number: int) -> void:
 
 @rpc("reliable")
 func _start_game(players: Dictionary) -> void:
-	var map: Node2D = preload("res://screens/game/maps/desert/desert_map_1.tscn").instantiate()
+	var map: Node2D = preload("res://screens/match/maps/desert/desert_map_1.tscn").instantiate()
 	
 	for player_number in players:
 		var peer_id: int = players[player_number]
-		var player: Player = preload("res://screens/game/player/player.tscn").instantiate()
+		var player: Player = preload("res://screens/match/player/player.tscn").instantiate()
 		player.name = str(peer_id)
 		player.set_multiplayer_authority(peer_id)
 		player.initial_looking_direction = -1 if player_number % 2 == 0 else 1

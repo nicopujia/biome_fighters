@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4i26xqk0vibt"]
 
-[ext_resource type="Script" path="res://screens/game/hud/player_data/player_data.gd" id="1_kgpwx"]
+[ext_resource type="Script" path="res://screens/match/hud/player_data/player_data.gd" id="1_kgpwx"]
 [ext_resource type="Texture2D" uid="uid://18skdoedk0xj" path="res://common/characters/idle_poses/cactus.tres" id="2_ni4w0"]
 
 [node name="PlayerData" type="HBoxContainer"]

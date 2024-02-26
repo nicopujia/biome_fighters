@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://main.gd" id="1_n1p2j"]
 
-[node name="GameScreen" type="Node"]
+[node name="MatchScreen" type="Node"]
 script = ExtResource("1_n1p2j")
 
 [node name="MapContainer" type="Node" parent="."]

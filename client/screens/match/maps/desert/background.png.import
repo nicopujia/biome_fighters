@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://xaiffh7na7yr"
-path="res://.godot/imported/background.png-2ffa66295a2639faee448e5b207bd086.ctex"
+path="res://.godot/imported/background.png-a9a44d1ffd7ba4756367c066e5ea872f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screens/game/maps/desert/background.png"
-dest_files=["res://.godot/imported/background.png-2ffa66295a2639faee448e5b207bd086.ctex"]
+source_file="res://screens/match/maps/desert/background.png"
+dest_files=["res://.godot/imported/background.png-a9a44d1ffd7ba4756367c066e5ea872f.ctex"]
 
 [params]
 
