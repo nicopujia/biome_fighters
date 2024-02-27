@@ -13,13 +13,13 @@ config_version=5
 config/name="Biome Fighters - Client"
 run/main_scene="res://screens/main_menu/main_menu_screen.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
-config/icon="res://common/icon/complete.png"
+config/icon="res://icon.png"
 
 [autoload]
 
-Server="*res://global/server.gd"
-PersistentData="*res://global/persistent_data.gd"
-LoadingScreen="*res://global/loading_screen/loading_screen.tscn"
+Server="*res://autoload/server.gd"
+PersistentData="*res://autoload/persistent_data.gd"
+LoadingScreen="*res://autoload/loading_screen/loading_screen.tscn"
 
 [display]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjib2aqpp2vxd"
-path="res://.godot/imported/cactus.png-4e6930cb3c82aea689abdf3156c5f7de.ctex"
+uid="uid://4o8hfl5dyoy5"
+path="res://.godot/imported/icon_adaptive_background.png-a79c6070469724bf797f5d11ceb6df64.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://common/characters/spritesheets/cactus.png"
-dest_files=["res://.godot/imported/cactus.png-4e6930cb3c82aea689abdf3156c5f7de.ctex"]
+source_file="res://android/icon_adaptive_background.png"
+dest_files=["res://.godot/imported/icon_adaptive_background.png-a79c6070469724bf797f5d11ceb6df64.ctex"]
 
 [params]
 

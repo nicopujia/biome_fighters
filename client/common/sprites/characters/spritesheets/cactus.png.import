@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7ts1ueuui2l5"
-path="res://.godot/imported/complete.png-a48c2772e508c32b87b19abefb1ec8eb.ctex"
+uid="uid://bjib2aqpp2vxd"
+path="res://.godot/imported/cactus.png-31c6dbe1eedceb138d1006393b9e93a7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://common/icon/complete.png"
-dest_files=["res://.godot/imported/complete.png-a48c2772e508c32b87b19abefb1ec8eb.ctex"]
+source_file="res://common/sprites/characters/spritesheets/cactus.png"
+dest_files=["res://.godot/imported/cactus.png-31c6dbe1eedceb138d1006393b9e93a7.ctex"]
 
 [params]
 

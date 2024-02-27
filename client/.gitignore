@@ -10,5 +10,9 @@ addons/AsepriteWizard
 *.ase.import
 *.aseprite.import
 
+# Android build
+android/build/*
+!android/build/AndroidManifest.xml
+
 # Other
 unimplemented

@@ -1,7 +1,7 @@
 [gd_scene load_steps=23 format=3 uid="uid://b06ruhlmpd7px"]
 
 [ext_resource type="Script" path="res://screens/match/player/player.gd" id="1_sh0yk"]
-[ext_resource type="Texture2D" uid="uid://bjib2aqpp2vxd" path="res://common/characters/spritesheets/cactus.png" id="3_xrd7v"]
+[ext_resource type="Texture2D" uid="uid://bjib2aqpp2vxd" path="res://common/sprites/characters/spritesheets/cactus.png" id="3_xrd7v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j2d1v"]
 radius = 2.0
