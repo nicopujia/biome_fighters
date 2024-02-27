@@ -18,12 +18,14 @@ const PUNCH_FRAMES: PackedInt32Array = [12, 14]
 const INITIAL_HEALTH: float = 20
 
 @export_enum("Left:-1", "Right:1") var initial_looking_direction: int = 1
+@export var anim_player: AnimationPlayer
 @export var sprite: Sprite2D
+@export var synchronizer: MultiplayerSynchronizer
+@export_group("Colliders")
 @export var hitbox_collider: CollisionShape2D
 @export var crouched_collider: CollisionShape2D
 @export var stood_up_collider: CollisionShape2D
-@export var anim_player: AnimationPlayer
-@export var synchronizer: MultiplayerSynchronizer
+@export_group("Timers")
 @export var coyote_jump_timer: Timer
 @export var fall_from_half_platform_timer: Timer
 @export var jump_buffering_timer: Timer
