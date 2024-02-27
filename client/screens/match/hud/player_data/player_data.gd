@@ -16,7 +16,7 @@ extends HBoxContainer
 		username = new_value
 		$VBoxContainer/UsernameLabel.text = username
 		update_configuration_warnings()
-@export var character_icon: Texture2D = preload("res://common/characters/idle_poses/cactus.tres"):
+@export var character_icon: Texture2D = preload("res://common/sprites/characters/idle_poses/cactus.tres"):
 	set(new_value):
 		character_icon = new_value
 		$CharacterIconTextureRect.texture = character_icon
