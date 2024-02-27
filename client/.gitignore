@@ -8,3 +8,7 @@ export_presets.cfg
 addons/AsepriteWizard
 .aseprite_wizard_history
 *.ase.import
+*.aseprite.import
+
+# Other
+unimplemented
