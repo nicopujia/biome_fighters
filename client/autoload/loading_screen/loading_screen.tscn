@@ -2,12 +2,11 @@
 
 [ext_resource type="Script" path="res://autoload/loading_screen/loading_screen.gd" id="1_2sndq"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_la6al"]
-bg_color = Color(0.141176, 0.141176, 0.141176, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wfngr"]
+bg_color = Color(0.133333, 0.133333, 0.133333, 1)
 
 [node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("label", "button")]
 layer = 2
-visible = false
 script = ExtResource("1_2sndq")
 label = NodePath("Panel/Label")
 button = NodePath("Panel/Button")
@@ -18,7 +17,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_la6al")
+theme_override_styles/panel = SubResource("StyleBoxFlat_wfngr")
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 1
@@ -52,3 +51,4 @@ offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "A button to do something"
+flat = true

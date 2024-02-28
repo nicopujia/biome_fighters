@@ -47,7 +47,7 @@ func _fields_are_valid() -> bool:
 		return false
 	
 	if  password_input.text != repeated_password_input.text:
-		info_label.text = "Passwords do not match"
+		info_label.text = "Passwords don't match"
 		return false
 	
 	return true

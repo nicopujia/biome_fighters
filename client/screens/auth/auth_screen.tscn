@@ -9,36 +9,45 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pyu0p")
-username_input = NodePath("Content/UsernameInput")
-password_input = NodePath("Content/PasswordInput")
-repeated_password_input = NodePath("Content/RepeatPasswordInput")
-info_label = NodePath("Content/InfoLabel")
+username_input = NodePath("Content/Inputs/Username")
+password_input = NodePath("Content/Inputs/Password")
+repeated_password_input = NodePath("Content/Inputs/RepeatPassword")
+info_label = NodePath("InfoLabel")
 buttons = NodePath("Content/Buttons")
 http = NodePath("HTTPRequest")
 
 [node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 64.0
-offset_right = -64.0
+offset_left = -50.0
+offset_right = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Content"]
+[node name="Title" type="RichTextLabel" parent="Content"]
 layout_mode = 2
-text = "Welcome!"
-horizontal_alignment = 1
-vertical_alignment = 1
+size_flags_vertical = 6
+theme_override_font_sizes/bold_font_size = 10
+bbcode_enabled = true
+text = "Welcome to
+[font_size=10]BIOME FIGHTERS[/font_size]"
+fit_content = true
+autowrap_mode = 0
 
-[node name="UsernameInput" type="LineEdit" parent="Content"]
+[node name="Inputs" type="VBoxContainer" parent="Content"]
+layout_mode = 2
+alignment = 1
+
+[node name="Username" type="LineEdit" parent="Content/Inputs"]
 layout_mode = 2
 placeholder_text = "Username"
 max_length = 20
 
-[node name="PasswordInput" type="LineEdit" parent="Content"]
+[node name="Password" type="LineEdit" parent="Content/Inputs"]
 layout_mode = 2
 placeholder_text = "Password"
 secret = true
@@ -47,7 +56,7 @@ virtual_keyboard_type = 6
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="RepeatPasswordInput" type="LineEdit" parent="Content"]
+[node name="RepeatPassword" type="LineEdit" parent="Content/Inputs"]
 layout_mode = 2
 placeholder_text = "Repeat password"
 secret = true
@@ -56,23 +65,33 @@ virtual_keyboard_type = 6
 caret_blink = true
 caret_blink_interval = 0.5
 
-[node name="InfoLabel" type="Label" parent="Content"]
-modulate = Color(1, 1, 1, 0.498039)
-layout_mode = 2
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="Buttons" type="HBoxContainer" parent="Content"]
 layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/separation = 16
 alignment = 1
 
 [node name="LoginButton" type="Button" parent="Content/Buttons"]
 layout_mode = 2
-text = "Login"
+text = " Log in "
 
 [node name="RegisterButton" type="Button" parent="Content/Buttons"]
 layout_mode = 2
 text = "Register"
+
+[node name="InfoLabel" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.498039)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_right = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+vertical_alignment = 1
+autowrap_mode = 3
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 

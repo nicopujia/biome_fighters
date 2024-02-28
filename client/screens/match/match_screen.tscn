@@ -1,8 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://b0yrwvujlggal"]
+[gd_scene load_steps=21 format=3 uid="uid://b0yrwvujlggal"]
 
 [ext_resource type="Script" path="res://screens/match/match_screen.gd" id="1_nspun"]
 [ext_resource type="PackedScene" uid="uid://b4i26xqk0vibt" path="res://screens/match/hud/player_data/player_data.tscn" id="2_pky6v"]
-[ext_resource type="Texture2D" uid="uid://bwgonxgvyxh2q" path="res://screens/match/hud/buttons.png" id="4_hfera"]
+[ext_resource type="Texture2D" uid="uid://c3ssf2ex7qr05" path="res://screens/match/hud/buttons.png" id="4_hfera"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4uu5i"]
 atlas = ExtResource("4_hfera")
@@ -44,17 +44,6 @@ region = Rect2(0, 9, 4, 5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n8ehp"]
 size = Vector2(4, 12)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jvrmq"]
-atlas = ExtResource("4_hfera")
-region = Rect2(20, 0, 8, 9)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_47da4"]
-atlas = ExtResource("4_hfera")
-region = Rect2(20, 9, 8, 9)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_fxxvg"]
-radius = 6.0
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_3y03u"]
 atlas = ExtResource("4_hfera")
 region = Rect2(12, 0, 8, 9)
@@ -90,10 +79,9 @@ map_container = NodePath("MapContainer")
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_left = 2.0
+offset_left = 4.0
 offset_top = 4.0
-offset_right = -2.0
-offset_bottom = 24.0
+offset_bottom = 20.0
 grow_horizontal = 2
 theme_override_constants/separation = 4
 alignment = 1
@@ -120,9 +108,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -48.0
-offset_top = -100.0
+offset_top = -102.0
 offset_right = 48.0
-offset_bottom = -4.0
+offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -187,18 +175,9 @@ anchor_bottom = 0.5
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="SpecialActionButton" type="TouchScreenButton" parent="ButtonsContainer"]
-position = Vector2(-32, -27)
-scale = Vector2(3, 3)
-texture_normal = SubResource("AtlasTexture_jvrmq")
-texture_pressed = SubResource("AtlasTexture_47da4")
-shape = SubResource("CircleShape2D_fxxvg")
-shape_visible = false
-action = "special_action"
-
 [node name="PunchButton" type="TouchScreenButton" parent="ButtonsContainer"]
-position = Vector2(-56, 1)
-scale = Vector2(3, 3)
+position = Vector2(-48, -23)
+scale = Vector2(4, 4)
 texture_normal = SubResource("AtlasTexture_3y03u")
 texture_pressed = SubResource("AtlasTexture_yhpc6")
 shape = SubResource("CircleShape2D_l77sg")
@@ -206,8 +185,8 @@ shape_visible = false
 action = "punch"
 
 [node name="JumpButton" type="TouchScreenButton" parent="ButtonsContainer"]
-position = Vector2(-32, 29)
-scale = Vector2(3, 3)
+position = Vector2(-48, 21)
+scale = Vector2(4, 4)
 texture_normal = SubResource("AtlasTexture_fwjpo")
 texture_pressed = SubResource("AtlasTexture_worch")
 shape = SubResource("CircleShape2D_fyoey")
