@@ -41,7 +41,7 @@ import/blender/enabled=false
 
 [gui]
 
-theme/custom="res://common/theme.tres"
+theme/custom="res://theme.tres"
 
 [input]
 
