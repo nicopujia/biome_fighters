@@ -890,8 +890,7 @@ properties/5/sync = true
 properties/5/watch = false
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("anim_player", "sprite", "synchronizer", "hitbox_collider", "crouched_collider", "stood_up_collider", "coyote_jump_timer", "fall_from_half_platform_timer", "jump_buffering_timer", "slide_timer")]
-collision_mask = 31
-collision_priority = 10.0
+collision_mask = 30
 slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false

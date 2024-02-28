@@ -74,7 +74,6 @@ func _physics_process(delta: float) -> void:
 			speed = SLIDE_SPEED
 			_horizontal_direction = int(sprite.scale.x)
 			slide_timer.start()
-			set_collision_mask_value(PhysicsLayers.PLAYER, false)
 			hitbox_collider.set_deferred("disabled", false)
 	
 	velocity.x = speed * _horizontal_direction
@@ -226,4 +225,3 @@ func _on_hit_box_body_entered(body: Node2D) -> void:
 
 func _on_slide_timeout() -> void:
 	hitbox_collider.set_deferred("disabled", true)
-	set_collision_mask_value(PhysicsLayers.PLAYER, true)
