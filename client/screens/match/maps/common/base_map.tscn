@@ -34,6 +34,9 @@ offset = Vector2(48, 48)
 
 [node name="TileMap" type="TileMap" parent="."]
 format = 2
+layer_0/name = "Blocks"
+layer_1/name = "Decoration"
+layer_1/tile_data = PackedInt32Array()
 
 [node name="SpawnPoints" type="Node2D" parent="."]
 
