@@ -7,6 +7,7 @@ bg_color = Color(0.133333, 0.133333, 0.133333, 1)
 
 [node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("label", "button")]
 layer = 2
+visible = false
 script = ExtResource("1_2sndq")
 label = NodePath("Panel/Label")
 button = NodePath("Panel/Button")

@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 	var previous_colliding_body_layer: PhysicsLayers = _get_colliding_body_layer()
 	move_and_slide()
 	
-	# Horizontal movement	
+	# Horizontal movement
 	if Input.is_action_pressed("ui_right"):
 		_horizontal_direction = 1
 	elif Input.is_action_pressed("ui_left"):
@@ -70,8 +70,17 @@ func _physics_process(delta: float) -> void:
 	if down_is_pressed and is_on_floor() and slide_timer.is_stopped():
 		speed = CRAWL_SPEED
 		
-		if Input.is_action_just_pressed("punch"):
-			speed = SLIDE_SPEED
+		# Slope
+		if _is_on_slope():
+			velocity.y += SLIDE_SPEED
+			
+			if Input.is_action_just_pressed("jump"):
+				_horizontal_direction = int(sprite.scale.x)
+				slide_timer.start()
+				jump(JUMP_IMPULSE * 2)
+		
+		# Slide
+		elif Input.is_action_just_pressed("punch"):
 			_horizontal_direction = int(sprite.scale.x)
 			slide_timer.start()
 			hitbox_collider.set_deferred("disabled", false)
@@ -156,7 +165,10 @@ func _physics_process(delta: float) -> void:
 				   or anim_player.current_animation == "crawl":
 					anim_player.pause()
 				elif anim_player.is_playing():
-					anim_player.play("crouch")
+					if _is_on_slope():
+						anim_player.play("fall")
+					else:
+						anim_player.play("crouch")
 			elif Input.is_action_just_released("ui_down"):
 				anim_player.play_backwards("crouch")
 			else:
@@ -196,6 +208,10 @@ func _get_colliding_body_layer() -> PhysicsLayers:
 	return int(log(layer_as_bitmask) / log(2) + 1) as PhysicsLayers
 
 
+func _is_on_slope() -> bool:
+	return get_floor_normal().dot(Vector2.UP) < 1
+
+
 ## If the current animation is any of the [param wait_animations], the 
 ## [param main_animation] is queued. Otherwise, it is played immediately.
 func _play_or_queue_anim(main_animation: StringName, wait_animations: PackedStringArray) -> void:
@@ -220,7 +236,6 @@ func _on_hit_box_body_entered(body: Node2D) -> void:
 		body.jump(JUMP_IMPULSE / 2)
 	
 	body.take_damage(damage)
-
 
 
 func _on_slide_timeout() -> void:

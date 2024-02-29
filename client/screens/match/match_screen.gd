@@ -91,6 +91,7 @@ func _start_game(players: Dictionary) -> void:
 		player_data_node.username = Server.me.username if player_number == _my_player_number else _opponent_user["username"]
 	
 	map_container.add_child(map)
+	map.global_position = map_container.global_position
 	
 	LoadingScreen.hide()
 

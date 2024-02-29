@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4i26xqk0vibt"]
 
 [ext_resource type="Script" path="res://screens/match/hud/player_data/player_data.gd" id="1_kgpwx"]
-[ext_resource type="Texture2D" uid="uid://18skdoedk0xj" path="res://common/sprites/characters/idle_poses/cactus.tres" id="2_ni4w0"]
+[ext_resource type="Texture2D" uid="uid://18skdoedk0xj" path="res://screens/common/sprites/characters/idle_poses/cactus.tres" id="2_ni4w0"]
 
 [node name="PlayerData" type="HBoxContainer"]
 offset_right = 89.0
@@ -24,6 +24,7 @@ alignment = 1
 
 [node name="UsernameLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 text = "Player's username"
 vertical_alignment = 1
 
