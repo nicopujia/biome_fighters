@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://screens/auth/auth_screen.gd" id="1_pyu0p"]
 
-[node name="AuthScreen" type="Panel" node_paths=PackedStringArray("username_input", "password_input", "repeated_password_input", "info_label", "buttons", "http")]
+[node name="AuthScreen" type="Panel" node_paths=PackedStringArray("username_input", "password_input", "repeated_password_input", "info_label", "http")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,7 +13,6 @@ username_input = NodePath("Content/Inputs/Username")
 password_input = NodePath("Content/Inputs/Password")
 repeated_password_input = NodePath("Content/Inputs/RepeatPassword")
 info_label = NodePath("InfoLabel")
-buttons = NodePath("Content/Buttons")
 http = NodePath("HTTPRequest")
 
 [node name="Content" type="VBoxContainer" parent="."]
@@ -50,20 +49,20 @@ max_length = 20
 [node name="Password" type="LineEdit" parent="Content/Inputs"]
 layout_mode = 2
 placeholder_text = "Password"
-secret = true
-secret_character = "*"
 virtual_keyboard_type = 6
 caret_blink = true
 caret_blink_interval = 0.5
+secret = true
+secret_character = "*"
 
 [node name="RepeatPassword" type="LineEdit" parent="Content/Inputs"]
 layout_mode = 2
 placeholder_text = "Repeat password"
-secret = true
-secret_character = "*"
 virtual_keyboard_type = 6
 caret_blink = true
 caret_blink_interval = 0.5
+secret = true
+secret_character = "*"
 
 [node name="Buttons" type="HBoxContainer" parent="Content"]
 layout_mode = 2
@@ -71,11 +70,11 @@ size_flags_vertical = 6
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="LoginButton" type="Button" parent="Content/Buttons"]
+[node name="LoginButton" type="Button" parent="Content/Buttons" groups=["auth_buttons"]]
 layout_mode = 2
 text = " Log in "
 
-[node name="RegisterButton" type="Button" parent="Content/Buttons"]
+[node name="RegisterButton" type="Button" parent="Content/Buttons" groups=["auth_buttons"]]
 layout_mode = 2
 text = "Register"
 

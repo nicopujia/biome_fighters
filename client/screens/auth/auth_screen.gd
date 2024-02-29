@@ -5,13 +5,14 @@ extends Panel
 @export var password_input: LineEdit
 @export var repeated_password_input: LineEdit
 @export var info_label: Label
-@export var buttons: HBoxContainer
 @export var http: HTTPRequest
 
 
 func _on_auth_button_pressed(endpoint: StringName) -> void:
 	if not _fields_are_valid():
 		return
+	
+	_set_buttons_disabled(true)
 	
 	var url: String = Server.build_url("http", endpoint)
 	var body: String = HTTPClient.new().query_string_from_dict({
@@ -28,7 +29,7 @@ func _on_auth_button_pressed(endpoint: StringName) -> void:
 
 	if response.status_code != HTTPClient.RESPONSE_CREATED:
 		info_label.text = response.body["detail"]
-		_set_buttons_avaiability(true)
+		_set_buttons_disabled(false)
 		return
 		
 	if endpoint == "/login":
@@ -53,6 +54,5 @@ func _fields_are_valid() -> bool:
 	return true
 
 
-func _set_buttons_avaiability(enabled: bool) -> void:
-	for button in buttons.get_children():
-		button.disabled = not enabled
+func _set_buttons_disabled(disabled: bool) -> void:
+	get_tree().set_group("auth_buttons", "disabled", disabled)
