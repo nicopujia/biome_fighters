@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dp68ksd4hvnmp"]
+
+[node name="Scenario" type="TileMap"]
+format = 2
+layer_0/name = "Background"
+layer_1/name = "Platforms"
+layer_1/tile_data = PackedInt32Array()
+layer_2/name = "Decoration"
+layer_2/tile_data = PackedInt32Array()
+
+[node name="Player1" type="Node2D" parent="."]
+position = Vector2(-16, 0)
+
+[node name="Player2" type="Node2D" parent="."]
+position = Vector2(16, 0)

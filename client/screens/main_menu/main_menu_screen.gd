@@ -5,43 +5,26 @@ extends Panel
 
 
 func _ready() -> void:
-	await _load_user_data()
+	_fetch_current_user_data()
 
 
-func _load_user_data() -> void:
-	LoadingScreen.communicate()
-	
-	var response: Server.HTTPResponse = await Server.request("/me")
-	
-	if response.result == HTTPRequest.RESULT_TIMEOUT:
-		LoadingScreen.communicate(
-			"Request took too long. Please, check your internet connection and try again", 
-			"Try again", 
-			_load_user_data
-		)
-			
-	elif response.status_code == HTTPClient.RESPONSE_OK:
-		Server.me = Server.User.new(response.body)
-		_show_user_data()
-		LoadingScreen.hide()
-		
-	elif response.status_code == HTTPClient.RESPONSE_UNAUTHORIZED:
-		get_tree().change_scene_to_file("res://screens/auth/auth_screen.tscn")
-		LoadingScreen.hide()
-		
-	else:
-		LoadingScreen.communicate("Unexpected error occurred with result %s, status code %s" % [response.result, response.status_code])
+func _fetch_current_user_data() -> void:
+	ScreensManager.show_intermediate_screen()
+	var current_user := await API.request_current_user()
+	if current_user.has_data:
+		_update_current_user_data(current_user)
+		ScreensManager.hide()
 
 
-func _show_user_data():
-	username_label.text = Server.me.username
+func _update_current_user_data(current_user: User) -> void:
+	username_label.text = current_user.username
 	# More data will be added in the future
 
 
 func _on_logout_button_pressed() -> void:
-	PersistentData.save_value("Auth", "access_token", "")
-	get_tree().change_scene_to_file("res://screens/auth/auth_screen.tscn")
+	API.logout()
+	ScreensManager.go_to_auth_screen()
 
 
 func _on_play_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://screens/match/match_screen.tscn")
+	ScreensManager.go_to_match_screen()

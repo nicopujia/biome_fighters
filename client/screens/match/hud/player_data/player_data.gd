@@ -9,17 +9,17 @@ extends HBoxContainer
 		flip_h = new_value
 		$VBoxContainer/UsernameLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT if flip_h else 0
 		$VBoxContainer/HealthBar.fill_mode = ProgressBar.FILL_END_TO_BEGIN if flip_h else ProgressBar.FILL_BEGIN_TO_END
-		$CharacterIconTextureRect.flip_h = flip_h
-		move_child($CharacterIconTextureRect, -1 if flip_h else 0)
+		$CharacterThumbnailNode.flip_h = flip_h
+		move_child($CharacterThumbnailNode, -1 if flip_h else 0)
 @export var username: String = "Player's username":
 	set(new_value):
 		username = new_value
 		$VBoxContainer/UsernameLabel.text = username
 		update_configuration_warnings()
-@export var character_icon: Texture2D:
+@export var character_thumbnail: Texture2D:
 	set(new_value):
-		character_icon = new_value
-		$CharacterIconTextureRect.texture = character_icon
+		character_thumbnail = new_value
+		$CharacterThumbnailNode.texture = character_thumbnail
 @export_group("Health Bar")
 @export var max_health: float = 100:
 	set(new_value):
@@ -37,9 +37,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 	var warnings: PackedStringArray = []
 	
 	if username.length() > 20:
-		warnings.append("`username` should be less or equal than 20 characters long.")
+		warnings.append("`username` must be less or equal than 20 characters long.")
 	
 	if health > max_health:
-		warnings.append("`health` shouldn't be greater than `max_health`")
+		warnings.append("`health` must be less or equal than `max_health`")
 	
 	return warnings

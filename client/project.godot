@@ -17,9 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Server="*res://autoload/server.gd"
-PersistentData="*res://autoload/persistent_data.gd"
-LoadingScreen="*res://autoload/loading_screen/loading_screen.tscn"
+API="*res://global/api/api.gd"
+ScreensManager="*res://global/screens_manager/screens_manager.tscn"
 
 [display]
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://screens/auth/auth_screen.gd" id="1_pyu0p"]
 
-[node name="AuthScreen" type="Panel" node_paths=PackedStringArray("username_input", "password_input", "repeated_password_input", "info_label", "http")]
+[node name="AuthScreen" type="Panel" node_paths=PackedStringArray("username_input", "password_input", "repeated_password_input", "info_label")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,7 +13,6 @@ username_input = NodePath("Content/Inputs/Username")
 password_input = NodePath("Content/Inputs/Password")
 repeated_password_input = NodePath("Content/Inputs/RepeatPassword")
 info_label = NodePath("InfoLabel")
-http = NodePath("HTTPRequest")
 
 [node name="Content" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -70,11 +69,11 @@ size_flags_vertical = 6
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="LoginButton" type="Button" parent="Content/Buttons" groups=["auth_buttons"]]
+[node name="LoginButton" type="Button" parent="Content/Buttons" groups=["buttons"]]
 layout_mode = 2
 text = " Log in "
 
-[node name="RegisterButton" type="Button" parent="Content/Buttons" groups=["auth_buttons"]]
+[node name="RegisterButton" type="Button" parent="Content/Buttons" groups=["buttons"]]
 layout_mode = 2
 text = "Register"
 
@@ -92,7 +91,5 @@ grow_vertical = 2
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
-
-[connection signal="pressed" from="Content/Buttons/LoginButton" to="." method="_on_auth_button_pressed" binds= [&"/login"]]
-[connection signal="pressed" from="Content/Buttons/RegisterButton" to="." method="_on_auth_button_pressed" binds= [&"/register"]]
+[connection signal="pressed" from="Content/Buttons/LoginButton" to="." method="_on_auth_button_pressed" binds= [&"login"]]
+[connection signal="pressed" from="Content/Buttons/RegisterButton" to="." method="_on_auth_button_pressed" binds= [&"register"]]

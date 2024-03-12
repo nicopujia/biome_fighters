@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://blnaafk6s8v51"]
+
+[ext_resource type="Script" path="res://global/screens_manager/screens_manager.gd" id="1_2kq8x"]
+[ext_resource type="PackedScene" uid="uid://wmijdab76o4e" path="res://screens/auth/auth_screen.tscn" id="2_weetv"]
+[ext_resource type="PackedScene" uid="uid://cqg7af16no431" path="res://screens/main_menu/main_menu_screen.tscn" id="3_pwonq"]
+[ext_resource type="PackedScene" uid="uid://b0yrwvujlggal" path="res://screens/match/match_screen.tscn" id="4_3ye0l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_whjao"]
+bg_color = Color(0.133333, 0.133333, 0.133333, 1)
+
+[node name="ScreensManager" type="CanvasLayer" node_paths=PackedStringArray("intermediate_screen_label", "intermediate_screen_button")]
+visible = false
+script = ExtResource("1_2kq8x")
+auth_screen = ExtResource("2_weetv")
+main_menu_screen = ExtResource("3_pwonq")
+match_screen = ExtResource("4_3ye0l")
+intermediate_screen_label = NodePath("IntermediateScreen/Label")
+intermediate_screen_button = NodePath("IntermediateScreen/Button")
+
+[node name="IntermediateScreen" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_whjao")
+
+[node name="Label" type="Label" parent="IntermediateScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -9.0
+offset_right = 80.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading message"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="IntermediateScreen"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -20.0
+offset_right = 4.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "A button to do something"
+flat = true

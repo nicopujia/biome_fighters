@@ -42,7 +42,7 @@ However, if you are interested in the project, feel free to continue it by your 
 1. Make sure you have these programs installed on your computer **and added to the PATH**:
     - [Git](https://www.git-scm.com/downloads)
     - [Python 3.12](https://www.python.org/downloads/release/python-3120/)
-    - [Godot 4.1.3 stable](https://godotengine.org/download/archive/4.1.3-stable/)
+    - [Godot 4.2 stable](https://godotengine.org/download/archive/4.1.3-stable/)
 
 2. Execute the following commands in the command line (if you are on Windows, do it with Git Bash and not with CMD):
 ```bash
@@ -68,9 +68,9 @@ touch .env
 
 3. Setup environment variables in `server/.env`:
 
-    - `JWT_SECRET_KEY=<The key you generate>`: Generate a JWT secret key with the `HS256` algorithm (you can do it with [this website](https://jwt-keys.21no.de/)). 
+    - `SECRET_KEY=<The key you generate>`: Generate a JWT secret key with the `HS256` algorithm (you can do it with [this website](https://jwt-keys.21no.de/)). 
     
-    - `DB_URI="<Your database connection string>"`: Create a [MongoDB](https://www.mongodb.com/) database (either local or with MongoDB Atlas) with a cluster called `database` and a collection called `users`, and get paste its connection string.
+    - `DB_URI="<Your database connection string>"`: Create a [MongoDB](https://www.mongodb.com/) database (either local or with MongoDB Atlas) with a cluster called `database` and paste its connection string.
 
 4. Run the server: `python main.py`.
 

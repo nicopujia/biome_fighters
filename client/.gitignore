@@ -1,8 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 
+# Exports
+bin
 export_presets.cfg
-.exports/
 
 # AsepriteWizard addon
 addons/AsepriteWizard

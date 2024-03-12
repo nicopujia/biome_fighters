@@ -35,23 +35,23 @@ func _register_player(player_number: int) -> void:
 	printraw("\nPlayer %s has been registered" % player_number)
 	
 	if len(players) == NEEDED_PLAYERS_AMOUNT:
-		printraw("\nBoth players have been registered. Starting the game...")
-		_start_game.rpc(players)
+		printraw("\nAll players have been registered. Starting the match...")
+		_start_match.rpc(players)
 
 
 @rpc("reliable")
-func _start_game(players: Dictionary) -> void:	
+func _start_match(players: Dictionary) -> void:
 	for player_number in players:
 		var player: Node = Node.new()
 		player.name = str(players[player_number])
 		player.add_child(MultiplayerSynchronizer.new())
-		get_node("MapContainer/Map/SpawnPoints/Player" + str(player_number)).add_child(player)
+		get_node("ScenarioContainer/Scenario/Player" + str(player_number)).add_child(player)
 	
-	printraw("\nThe game has started")
+	printraw("\nThe match has started")
 
 
 @rpc("reliable", "call_local", "any_peer")
-func _finish_game(_loser_player_number: int) -> void:
+func _finish_match(_loser_player_number: int) -> void:
 	var player_number: int = players.find_key(multiplayer.get_remote_sender_id())
 	players.erase(player_number)
 	printraw("\nPlayer %s has finished." % [player_number])

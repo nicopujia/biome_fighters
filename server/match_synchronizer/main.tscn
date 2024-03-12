@@ -5,12 +5,10 @@
 [node name="MatchScreen" type="Node"]
 script = ExtResource("1_n1p2j")
 
-[node name="MapContainer" type="Node" parent="."]
+[node name="ScenarioContainer" type="Node" parent="."]
 
-[node name="Map" type="Node" parent="MapContainer"]
+[node name="Scenario" type="Node" parent="ScenarioContainer"]
 
-[node name="SpawnPoints" type="Node" parent="MapContainer/Map"]
+[node name="Player1" type="Node" parent="ScenarioContainer/Scenario"]
 
-[node name="Player1" type="Node" parent="MapContainer/Map/SpawnPoints"]
-
-[node name="Player2" type="Node" parent="MapContainer/Map/SpawnPoints"]
+[node name="Player2" type="Node" parent="ScenarioContainer/Scenario"]

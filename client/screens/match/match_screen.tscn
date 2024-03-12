@@ -66,14 +66,14 @@ region = Rect2(4, 9, 8, 9)
 [sub_resource type="CircleShape2D" id="CircleShape2D_fyoey"]
 radius = 6.0
 
-[node name="MatchScreen" type="Panel" node_paths=PackedStringArray("map_container")]
+[node name="MatchScreen" type="Panel" node_paths=PackedStringArray("scenario_container")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nspun")
-map_container = NodePath("MapContainer")
+scenario_container = NodePath("ScenarioContainer")
 
 [node name="PlayersData" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -100,19 +100,24 @@ layout_mode = 2
 flip_h = true
 username = "Player 2"
 
-[node name="MapContainer" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 7
+[node name="ScenarioContainer" type="Node2D" parent="."]
+position = Vector2(112, 72)
+metadata/_edit_group_ = true
+
+[node name="Placeholder" type="ColorRect" parent="ScenarioContainer"]
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 offset_left = -48.0
-offset_top = -102.0
+offset_top = -48.0
 offset_right = 48.0
-offset_bottom = -6.0
+offset_bottom = 48.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+pivot_offset = Vector2(48, 48)
+color = Color(0, 0, 0, 1)
 
 [node name="DPadContainer" type="Control" parent="."]
 layout_mode = 1
