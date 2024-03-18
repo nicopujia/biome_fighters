@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://dev3gya8rx345"]
+
+[ext_resource type="PackedScene" uid="uid://co2j2kkhm1jr1" path="res://screens/match/scenarios/desert/common/base_desert_scenario.tscn" id="1_nl1f1"]
+
+[node name="Scenario" instance=ExtResource("1_nl1f1")]
+layer_1/tile_data = PackedInt32Array(-65542, 1, 12, 327674, 131073, 268435468, 393210, 1, 12, 196603, 196609, 12, 393211, 1, 12, -196612, 1, 12, 196604, 196609, 12, 393212, 1, 12, -196611, 1, 12, 196605, 196609, 12, 393213, 1, 12, -2, 196609, 12, 327678, 131073, 12, 393214, 1, 12, -196609, 1, 12, -1, 196609, 12, 327679, 1, 12, 393215, 1, 12, -262144, 1, 12, -65536, 196609, 12, 262144, 1, 12, 327680, 1, 12, -65535, 196609, 12, 262145, 131073, 268435468, 327681, 1, 12, -262142, 1, 12, 131074, 196609, 12, 327682, 1, 12, -262141, 1, 12, 131075, 196609, 12, 327683, 1, 12, 131076, 196609, 12, 327684, 1, 12, -131067, 1, 12, 262149, 131073, 12, 327685, 1, 12)
+
+[node name="Player1" parent="." index="0"]
+position = Vector2(-28, 11)
+
+[node name="Player2" parent="." index="1"]
+position = Vector2(28, 11)

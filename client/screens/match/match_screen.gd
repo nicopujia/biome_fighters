@@ -7,6 +7,7 @@ enum MatchMessageCode { OPPONENT_MATCHED, OPPONENT_DISCONNECTED }
 @export var scenario_container: Node2D
 
 var _my_player_number: int
+var _scenario: int
 var _opponent_user: User
 var _websocket: WebSocketPeer = WebSocketPeer.new()
 
@@ -73,6 +74,7 @@ func _process_websocket_packet(packet: PackedByteArray) -> void:
 func _on_opponent_match(message: Dictionary) -> void:
 	ScreensManager.show_intermediate_screen("Opponent found!")
 	_my_player_number = message["your_player_number"]
+	_scenario = message["scenario"]
 	_opponent_user = User.new(message["opponent_user"])
 	_connect_to_match_synchronizer(message["port"])
 	ScreensManager.show_intermediate_screen("Loading combat...")
@@ -101,7 +103,7 @@ func _register_player(_player_number: int) -> void:
 
 @rpc("reliable")
 func _start_match(players: Dictionary) -> void: # Called by match synchronizer when all players have connected
-	var scenario := preload("res://screens/match/scenarios/desert/desert_scenario_1.tscn").instantiate()
+	var scenario: TileMap = load("res://screens/match/scenarios/desert/desert_scenario_%s.tscn" % _scenario).instantiate()
 	
 	for player_number in players:
 		var username: String

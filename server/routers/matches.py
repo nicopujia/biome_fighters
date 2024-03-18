@@ -14,6 +14,9 @@ from dependencies import get_authenticated_user
 from models import Token, User
 
 
+SCENARIOS_AMOUNT = 5
+
+
 class PortsManager:
     used_ports: set[int] = set()
     available_ports = list(range(1024, 49151))
@@ -38,7 +41,9 @@ class Player:
     user: User
     opponent: Self | None = None
     
-    async def send_match_data(self, port: int, player_number: int) -> None:
+    async def send_match_data(self, port: int, player_number: int, scenario: int) -> None:
+        assert scenario <= SCENARIOS_AMOUNT
+        
         if not self.opponent:
             return
 
@@ -46,7 +51,8 @@ class Player:
             "code": MatchMessageCode.OPPONENT_FOUND.value,
             "port": port, 
             "your_player_number": player_number,
-            "opponent_user": self.opponent.user.model_dump(), 
+            "opponent_user": self.opponent.user.model_dump(),
+            "scenario": scenario,
         })
 
 
@@ -99,12 +105,13 @@ async def play_match(websocket: WebSocket, match_access_token: str) -> None:
 
 
 async def start_match(player_1: Player, player_2: Player) -> None:
+    scenario = random.randint(1, SCENARIOS_AMOUNT)
     port = PortsManager.get_unused()
     asyncio.create_task(run_match_syncronizer(port))
     
     player_1.opponent, player_2.opponent = player_2, player_1
-    await player_1.send_match_data(port, 1)
-    await player_2.send_match_data(port, 2)
+    await player_1.send_match_data(port, 1, scenario)
+    await player_2.send_match_data(port, 2, scenario)
     
     logging.info(f"New match has just started: {player_1.user.username} vs {player_2.user.username}")
 
