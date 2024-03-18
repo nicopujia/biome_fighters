@@ -42,7 +42,7 @@ However, if you are interested in the project, feel free to continue it by your 
 1. Make sure you have these programs installed on your computer **and added to the PATH**:
     - [Git](https://www.git-scm.com/downloads)
     - [Python 3.12](https://www.python.org/downloads/release/python-3120/)
-    - [Godot 4.2 stable](https://godotengine.org/download/archive/4.1.3-stable/)
+    - [Godot 4.2.1 stable](https://godotengine.org/download/archive/4.2.1-stable/)
 
 2. Execute the following commands in the command line (if you are on Windows, do it with Git Bash and not with CMD):
 ```bash
@@ -74,7 +74,7 @@ touch .env
 
 4. Run the server: `python main.py`.
 
-5. Change the flag `IS_LOCAL` to true in `client/global/server.gd`.
+5. Change the flag `IS_LOCAL` to true in `client/global/api/api.gd`.
 
 6. Run 2 (or more) instances of the client. You can achieve this by setting `Debug -> Run multiple instances -> Run 2 instances` in the Godot editor and then executing the project.
 
