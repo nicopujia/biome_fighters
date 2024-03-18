@@ -3,6 +3,8 @@ extends Node
 
 const NEEDED_PLAYERS_AMOUNT: int = 2
 
+@export var scenario: Node
+
 var players: Dictionary
 
 
@@ -45,7 +47,7 @@ func _start_match(players: Dictionary) -> void:
 		var player: Node = Node.new()
 		player.name = str(players[player_number])
 		player.add_child(MultiplayerSynchronizer.new())
-		get_node("ScenarioContainer/Scenario/Player" + str(player_number)).add_child(player)
+		scenario.get_node("Player" + str(player_number)).add_child(player)
 	
 	printraw("\nThe match has started")
 

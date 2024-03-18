@@ -73,7 +73,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nspun")
-scenario_container = NodePath("ScenarioContainer")
+scenario_container = NodePath("CenterContainer/ScenarioContainer")
 
 [node name="PlayersData" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -100,11 +100,25 @@ layout_mode = 2
 flip_h = true
 username = "Player 2"
 
-[node name="ScenarioContainer" type="Node2D" parent="."]
-position = Vector2(112, 72)
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScenarioContainer" type="Node2D" parent="CenterContainer"]
+position = Vector2(20, 29)
 metadata/_edit_group_ = true
 
-[node name="Placeholder" type="ColorRect" parent="ScenarioContainer"]
+[node name="Placeholder" type="ColorRect" parent="CenterContainer/ScenarioContainer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

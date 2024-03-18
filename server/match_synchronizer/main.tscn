@@ -2,13 +2,16 @@
 
 [ext_resource type="Script" path="res://main.gd" id="1_n1p2j"]
 
-[node name="MatchScreen" type="Node"]
+[node name="MatchScreen" type="Node" node_paths=PackedStringArray("scenario")]
 script = ExtResource("1_n1p2j")
+scenario = NodePath("CenterContainer/ScenarioContainer/Scenario")
 
-[node name="ScenarioContainer" type="Node" parent="."]
+[node name="CenterContainer" type="Node" parent="."]
 
-[node name="Scenario" type="Node" parent="ScenarioContainer"]
+[node name="ScenarioContainer" type="Node" parent="CenterContainer"]
 
-[node name="Player1" type="Node" parent="ScenarioContainer/Scenario"]
+[node name="Scenario" type="Node" parent="CenterContainer/ScenarioContainer"]
 
-[node name="Player2" type="Node" parent="ScenarioContainer/Scenario"]
+[node name="Player1" type="Node" parent="CenterContainer/ScenarioContainer/Scenario"]
+
+[node name="Player2" type="Node" parent="CenterContainer/ScenarioContainer/Scenario"]
