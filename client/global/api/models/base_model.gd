@@ -43,5 +43,4 @@ func _parse_response(response: APIResponse) -> void:
 
 
 func _parse_dict(dict: Dictionary) -> void:
-	if has_data:
-		has_data = not dict.is_empty()
+	has_data = not dict.is_empty()
