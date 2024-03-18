@@ -3,11 +3,9 @@
 [ext_resource type="Script" path="res://screens/match/player/player.gd" id="1_sh0yk"]
 [ext_resource type="Texture2D" uid="uid://bjib2aqpp2vxd" path="res://screens/common/sprites/characters/spritesheets/cactus.png" id="3_xrd7v"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_k5skw"]
-load_path = "res://.godot/imported/cactus.png-4e6930cb3c82aea689abdf3156c5f7de.ctex"
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_j2d1v"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_msnma"]
 radius = 2.0
+height = 8.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gkds1"]
 radius = 2.0
@@ -398,6 +396,8 @@ tracks/4/keys = {
 "update": 1,
 "values": [4]
 }
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_k5skw"]
 
 [sub_resource type="Animation" id="Animation_ie85t"]
 length = 0.3
@@ -866,28 +866,22 @@ _data = {
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ul647"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = false
-properties/0/sync = true
-properties/0/watch = false
+properties/0/replication_mode = 1
 properties/1/path = NodePath("Sprite:frame")
 properties/1/spawn = false
-properties/1/sync = true
-properties/1/watch = false
+properties/1/replication_mode = 1
 properties/2/path = NodePath("Sprite:scale")
 properties/2/spawn = false
-properties/2/sync = true
-properties/2/watch = false
+properties/2/replication_mode = 1
 properties/3/path = NodePath("Sprite/HitBoxArea/Collider:disabled")
 properties/3/spawn = false
-properties/3/sync = true
-properties/3/watch = false
+properties/3/replication_mode = 1
 properties/4/path = NodePath("CrouchedCollider:disabled")
 properties/4/spawn = false
-properties/4/sync = true
-properties/4/watch = false
+properties/4/replication_mode = 1
 properties/5/path = NodePath("StoodUpCollider:disabled")
 properties/5/spawn = false
-properties/5/sync = true
-properties/5/watch = false
+properties/5/replication_mode = 1
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("anim_player", "sprite", "synchronizer", "hitbox_collider", "crouched_collider", "stood_up_collider", "coyote_jump_timer", "fall_from_half_platform_timer", "jump_buffering_timer", "slide_timer")]
 collision_mask = 30
@@ -909,7 +903,6 @@ slide_timer = NodePath("Timers/Slide")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = SubResource("CompressedTexture2D_k5skw")
 hframes = 5
 vframes = 5
 frame = 4
@@ -929,8 +922,9 @@ metadata/_aseprite_wizard_config_ = {
 collision_layer = 16
 
 [node name="Collider" type="CollisionShape2D" parent="Sprite/HitBoxArea"]
-position = Vector2(5, 0)
-shape = SubResource("CircleShape2D_j2d1v")
+position = Vector2(2, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_msnma")
 disabled = true
 
 [node name="CrouchedCollider" type="CollisionShape2D" parent="."]
@@ -943,11 +937,11 @@ disabled = true
 shape = SubResource("CapsuleShape2D_m35d5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "idle"
-playback_process_mode = 0
+callback_mode_process = 0
 libraries = {
 "": SubResource("AnimationLibrary_d0fj4")
 }
+autoplay = "idle"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ul647")
