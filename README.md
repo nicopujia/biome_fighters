@@ -5,6 +5,8 @@ Biome Fighters is a 1v1 online multiplayer platform fighter game with a retro ae
 
 Please note that the current version is prototype, so a lot of [initial ideas for the game](https://github.com/nicopujia/biome_fighters/labels/Enhancement) are not implemented. It only includes a minimal playable experience in a map with some platforms, with one biome (the desert) and one character (the cactus).
 
+[Gameplay video](https://youtu.be/MzYI5f1HNUU?si=pvkVsRpZaRKO-gxa)
+
 ### Screenshots
 ![User authentication](screenshots/user_authentication.jpg)
 ![Main menu](screenshots/main_menu.jpg)
